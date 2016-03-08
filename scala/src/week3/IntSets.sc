@@ -2,6 +2,7 @@
 object intsets {
   val t1 = new NonEmpty(3,new Empty,new Empty)
   val t2 = t1 incl 4
+  
 }
 
 abstract class IntSet {
@@ -36,4 +37,5 @@ class NonEmpty(elem:Int,left:IntSet,right:IntSet) extends IntSet {
 	}
 	
 	override def toString = "{"+left+elem+right+"}"
+	
 }

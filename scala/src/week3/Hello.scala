@@ -6,4 +6,6 @@ object Hello {
     println("hello world")
   }
   def printFun = println("hellowwww")
+  
+  
 }

@@ -19,7 +19,7 @@ object rationals {
   
   x.max(y)                                        //> res6: week3.Rational = 5/7
 
-  	
+
   //val test = new Rational(1)
 }
 

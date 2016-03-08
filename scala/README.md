@@ -1,6 +1,6 @@
 ## Notes
 
-These are notes for self referance 
+***These are notes for self referance***
 
 <blockquote>March 5th, 2016</blockquote>
 **constructor**
@@ -67,3 +67,30 @@ class SomeOtherClass extends IntSet {
   def partial(x:Int): Int = x*2
 }
 ```
+**singleton class**
+to create a singleton class, all that has to be done is to make it an object instead of class
+
+**imports in scala**
+```
+import somepackage.SomeClass
+import somepackage._
+import somepackage.{ClassA,ClassB}
+import somepackage.SomeObject.something
+```
+
+**traits**
+traits are like interfaces, a class can implement many traits. In scala it is done using the keyword with.
+e.g.,
+```
+trait Shape {
+	def height: Int
+	def width: Int
+	def surface = height * weight
+}
+
+class Square with Shape
+```
+traits can contains fields and concrete methods which is differant from java, where we cannot have concrete methods
+
+**exception**
+throw Exc

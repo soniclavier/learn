@@ -107,10 +107,12 @@ object MyObject {
 ```
 
 **Nothing**
+
 It is used to denote nothing, e.g., when there is nothing returned from a function because of some exception.
 It is subtype of all other type.
 
 **Null**
+
 Subtype of all reference type
 ```
 val x = null //set x as Null
@@ -120,4 +122,37 @@ val z:Int = null //try to assign null to z, this will not work because z is not 
 **Scala class hierarchy**
 <img src="http://www.scala-lang.org/old/sites/default/files/images/classhierarchy.png"/>
 
+**Value Parameters**
+
+```
+class Student(val name:String, val id:Int)
+
+#is same as
+
+class Student(_name:String,_id:Int) {
+	val name =_name
+	val id = _id
+}
+```
+
+**Type Parameters**
+
+e.g.,
+```
+train MyTrain[T]
+class Student[T](val name:String, val id: T)
+```
+
+A type parameter can also be used for functions.<br/>e.g.,
+```
+def myfun[T](input: T) = {
+}
+
+// it can be called by
+myfun[Int](1)
+myfun[String]("hii")
+```
+while calling such function, we don't need explicity specify the type, scala can figure it out by itself.
+
+*Note:* A `val` is evaluated when the object is first initialized, def is evaluated each time it is referenced. 
 

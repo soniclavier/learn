@@ -94,3 +94,30 @@ traits can contains fields and concrete methods which is differant from java, wh
 
 **exception**
 throw Exc
+
+<blockquote>April 15th, 2016</blockquote>
+
+**pacakges**
+same as in java. e.g., 
+```
+package com.vishnuviswanath
+
+object MyObject {
+}
+```
+
+**Nothing**
+It is used to denote nothing, e.g., when there is nothing returned from a function because of some exception.
+It is subtype of all other type.
+
+**Null**
+Subtype of all reference type
+```
+val x = null //set x as Null
+val y:String = x //assign x to y, (works because y is of type reference)
+val z:Int = null //try to assign null to z, this will not work because z is not of type refernce in the scala class hierarchy. ( Int is a value type)
+```
+**Scala class hierarchy**
+<img src="http://www.scala-lang.org/old/sites/default/files/images/classhierarchy.png"/>
+
+

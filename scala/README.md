@@ -94,3 +94,106 @@ traits can contains fields and concrete methods which is differant from java, wh
 
 **exception**
 throw Exc
+
+<blockquote>April 15th, 2016</blockquote>
+
+**pacakges**
+same as in java. e.g., 
+```
+package com.vishnuviswanath
+
+object MyObject {
+}
+```
+
+**Nothing**
+
+It is used to denote nothing, e.g., when there is nothing returned from a function because of some exception.
+It is subtype of all other type.
+
+**Null**
+
+Subtype of all reference type
+```
+val x = null //set x as Null
+val y:String = x //assign x to y, (works because y is of type reference)
+val z:Int = null //try to assign null to z, this will not work because z is not of type refernce in the scala class hierarchy. ( Int is a value type)
+```
+**Scala class hierarchy**
+<img src="http://www.scala-lang.org/old/sites/default/files/images/classhierarchy.png"/>
+
+**Value Parameters**
+
+```
+class Student(val name:String, val id:Int)
+
+#is same as
+
+class Student(_name:String,_id:Int) {
+	val name =_name
+	val id = _id
+}
+```
+
+**Type Parameters**
+
+e.g.,
+```
+train MyTrain[T]
+class Student[T](val name:String, val id: T)
+```
+
+A type parameter can also be used for functions.<br/>e.g.,
+```
+def myfun[T](input: T) = {
+}
+
+// it can be called by
+myfun[Int](1)
+myfun[String]("hii")
+```
+while calling such function, we don't need explicity specify the type, scala can figure it out by itself.
+
+*Note:* A `val` is evaluated when the object is first initialized, def is evaluated each time it is referenced. 
+
+
+<blockquote>April 16th, 2016</blockquote>
+
+**Functions as Objects**
+
+Functions are objects in scala. Functions are objects with apply methods.
+```
+//function type A=>B
+package scala
+train Function1[A,B] {
+	def apply(x:A):B
+}
+
+//e.g., 2 (anonymous function)
+(x:Int) => x*x
+new Function1[Int,Int] {
+	def apply(x:Int) = x*x
+}
+
+//e.g., 3
+
+```
+
+**Type Bound**
+
+*Upper Bound* 
+```
+//here the type S is a subtype ot IntSet
+def assertAllPos[S<:IntSet](r:S): S 
+```
+*LowerBounds*
+```
+//here the type S is a supertype of NonEmpty
+//or NonEmpty is subtype of S 
+def assertAllPos[S>:NonEmpty](r:S): S 
+```
+*LowerAndUpper Bound*
+```
+def assertAllPos[S>:NonEmpty <: IntSet](r:S): S 
+```
+

@@ -156,3 +156,25 @@ while calling such function, we don't need explicity specify the type, scala can
 
 *Note:* A `val` is evaluated when the object is first initialized, def is evaluated each time it is referenced. 
 
+
+<blockquote>April 16th, 2016</blockquote>
+
+**Functions as Objects**
+
+Functions are objects in scala. Functions are objects with apply methods.
+```
+//function type A=>B
+package scala
+train Function1[A,B] {
+	def apply(x:A):B
+}
+
+//e.g., 2 (anonymous function)
+(x:Int) => x*x
+new Function1[Int,Int] {
+	def apply(x:Int) = x*x
+}
+
+//e.g., 3
+
+```

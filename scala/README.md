@@ -178,3 +178,22 @@ new Function1[Int,Int] {
 //e.g., 3
 
 ```
+
+**Type Bound**
+
+*Upper Bound* 
+```
+//here the type S is a subtype ot IntSet
+def assertAllPos[S<:IntSet](r:S): S 
+```
+*LowerBounds*
+```
+//here the type S is a supertype of NonEmpty
+//or NonEmpty is subtype of S 
+def assertAllPos[S>:NonEmpty](r:S): S 
+```
+*LowerAndUpper Bound*
+```
+def assertAllPos[S>:NonEmpty <: IntSet](r:S): S 
+```
+

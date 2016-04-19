@@ -197,3 +197,17 @@ def assertAllPos[S>:NonEmpty](r:S): S
 def assertAllPos[S>:NonEmpty <: IntSet](r:S): S 
 ```
 
+**Covaraint, Contravariant and Invaraint**
+<br/>
+covaraint: if a type A <: B, and C[A] <: C[B] <br/>
+contravariant: if a type A <: B, and C[A] >: C[B] <br/>
+invariant: none of the above holds <br/>
+*In scala, arrays are not covariant but lists are covaraint*
+<br/><br/>
+In scala functions arugments are contravariant, and covariant in result types
+```
+//covariance is represented by + sign and contravariant by -. eg.,
+trait Room[-T,+U] {
+  def open(x:T):U
+}
+```

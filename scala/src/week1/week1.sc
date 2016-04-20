@@ -18,7 +18,7 @@ object session {
     sqrtIter(1.0)
   }                                               //> sqrt: (x: Double)Double
 
-  sqrt(2)                                         //> res1: Double = 1.4142156862745097
+  sqrt(4)                                         //> res1: Double = 2.0000000929222947
   
   def sum(f:Int=>Int,a:Int,b:Int):Int = {
   	def loop(a:Int,acc:Int):Int = {

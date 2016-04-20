@@ -6,6 +6,7 @@ trait List[+T] {
   def isEmpty: Boolean
   def head: T
   def tail: List[T]
+  def prepend[U >: T](x: U) : List[U] = new Cons(x,this)
 }
 
 class Cons[T](val head:T,val tail: List[T]) extends List[T] {
@@ -33,5 +34,9 @@ object List {
 
 object test {
   val x: List[String] = Nil
+}
+
+trait Room[-T,+U] {
+  def open(x:T):U
 }
 

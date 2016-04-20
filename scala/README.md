@@ -196,10 +196,11 @@ def assertAllPos[S>:NonEmpty](r:S): S
 ```
 def assertAllPos[S>:NonEmpty <: IntSet](r:S): S 
 ```
+<br/>
 <blockquote>April 19th, 2016</blockquote>
 
 **Covaraint, Contravariant and Invaraint**
-<br/>
+<br/><br/>
 covaraint: if a type A <: B, and C[A] <: C[B] <br/>
 contravariant: if a type A <: B, and C[A] >: C[B] <br/>
 invariant: none of the above holds <br/>
@@ -213,3 +214,8 @@ trait Room[-T,+U] {
 }
 ```
 
+
+**Type Test and Type Cast**<br/>
+*(use is discouraged)*<br>
+x.isInstanceOf[T] = check if x is intance of type T
+x.asInstanceOf[T] = (T) x  (i.e., cast x to type T)

@@ -219,3 +219,44 @@ trait Room[-T,+U] {
 *(use is discouraged)*<br>
 x.isInstanceOf[T] = check if x is intance of type T
 x.asInstanceOf[T] = (T) x  (i.e., cast x to type T)
+
+**Case Classes**
+
+```
+train Expr
+case class Number(n:Int) extends Expr
+```
+case classes implicitly defines companion objects with apply methods
+```
+object Number  {
+	def apply(n:Int) = new Number(n)
+}
+```
+
+**Pattern Matching**<br/>
+Compared to java, Scala can have switch cases to match whole *class hierarchy*
+```
+def eval(e:Expr): Int = e match {
+	case Number(e) => n
+	case Sum(e1,e2) => eval(e1) + eval(e2)
+}
+```
+Pattern match syntax
+```
+e match {
+ case pattern => expr,
+ .
+ .
+ case pattern => expr
+}
+```
+Here *e* is matched with each *pattern* <br/>
+
+Pattern examples:<br/>
+1. Constructors. e.g., Number(n, )Number(_) (**_** doesn't care of the parameter)
+ 	*(will match all values of type (e.g., Number) or its subtype that has been constructed using the arguments that intern matches the patterns argument)*
+2. variables. e.g., n,e1 etc
+	*a variable pattern x matches any value, and that value is bound to x so that it can be used in the expression*
+3. wildcard patterns _
+4. constants. e.g., 1,"Something" : name constants/constant literals
+5. combine above and build complicated patterns

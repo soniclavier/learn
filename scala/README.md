@@ -260,3 +260,22 @@ Pattern examples:<br/>
 3. wildcard patterns _
 4. constants. e.g., 1,"Something" : name constants/constant literals
 5. combine above and build complicated patterns
+
+<blockquote>April 20th, 2016</blockquote>
+**Collections**
+
+**Lists**
+```
+val fruits = List("apples","oranges")
+val nums: List[Int] = List(1,2,3)
+val listList: List[List[Int]] = List(List(1,3,4),List(2,3,4))
+val empty: List[Nothing] = List()
+
+```
+lists are immutable in Scala
+
+**Cons**<br/>
+construction operation `::`
+```
+fruits = "apples" :: "oranges"
+```

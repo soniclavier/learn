@@ -1,4 +1,4 @@
-# Notes
+# Scala Notes - Basics
 
 ***These are notes for self referance***
 
@@ -199,8 +199,7 @@ def assertAllPos[S>:NonEmpty <: IntSet](r:S): S
 <br/>
 <blockquote>April 19th, 2016</blockquote>
 
-**Covaraint, Contravariant and Invaraint**
-<br/><br/>
+### Covaraint, Contravariant and Invaraint
 covaraint: if a type A <: B, and C[A] <: C[B] <br/>
 contravariant: if a type A <: B, and C[A] >: C[B] <br/>
 invariant: none of the above holds <br/>
@@ -215,7 +214,7 @@ trait Room[-T,+U] {
 ```
 
 
-**Type Test and Type Cast**<br/>
+### Type Test and Type Cast
 *(use is discouraged)*<br>
 x.isInstanceOf[T] = check if x is intance of type T
 x.asInstanceOf[T] = (T) x  (i.e., cast x to type T)
@@ -262,7 +261,7 @@ Pattern examples:<br/>
 5. combine above and build complicated patterns<br/>
 
 <blockquote>April 20th, 2016</blockquote>
-**Collections**
+# Collections
 
 ### Lists
 ```
@@ -274,7 +273,7 @@ val empty: List[Nothing] = List()
 ```
 lists are immutable in Scala
 
-### Cons
+#### Cons
 construction operation `::`
 ```
 fruits = "apples" :: ("oranges" :: Nil)
@@ -282,4 +281,11 @@ fruits = "apples" :: ("oranges" :: Nil)
 operators ending in reverse are considered right hand operand in infix rotation<br/>
 Here **::** is considered as a function of it's right hand side. either the list, or Nil in the above example
 
+#### List patterns
+```
+1 :: 2 :: xs \\lists that start with 1 and then 2
+x :: Nil \\list of length 1 (x means it can be anything, but only 1 item present)
+List() \\empty list
+
+```
 

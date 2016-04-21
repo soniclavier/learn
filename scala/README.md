@@ -1,16 +1,16 @@
-## Notes
+# Notes
 
 ***These are notes for self referance***
 
 <blockquote>March 5th, 2016</blockquote>
-**constructor**
+### constructor
 Constructor can be created by def this. e.g., below code calls a two arg constructor from single arg<br/>
 ```
 class Rational(x:Int,y:Int) {
   def this(x:Int) = this(x,1)
 ```
 
-**require()**
+### require()
 
 can be used to specify a condition/requirement
 e.g., 
@@ -19,13 +19,13 @@ class Rational(x:Int,y:Int) {
   require(y!=0,"denominator must be non-zero")
 }
 ```
-**assert()**
+### assert()
 
 We can also use assert.<br/>
 Assert throws assertion error, require throws illegal argument exception
 
 <blockquote>March 6th, 2016</blockquote>
-**infix notation**
+### infix notation
 
 suppose there is function add in class Rational that takes another rational number, then instead of writing
 r.add(s)  where r and s are objects of class Rational, we can write
@@ -33,7 +33,7 @@ r.add(s)  where r and s are objects of class Rational, we can write
 r add s
 ```
 
-**symbolic identifier**
+### symbolic identifier
 a function can have symbols also as a function name<br/>
 e.g.,<br/>
 the add method in Rational can be replaced with +
@@ -54,7 +54,7 @@ def unary_- = new Rational(-1*numer,denom)
 -x  //where x is an object of Rational
 ```
 
-**abstract class**
+### abstract class
 similar to java, in scala also use the keyword abstract.
 and the methods can be abstract/undefined. i.e., it can have without the =
 e.g.,
@@ -67,10 +67,10 @@ class SomeOtherClass extends IntSet {
   def partial(x:Int): Int = x*2
 }
 ```
-**singleton class**
+### singleton class
 to create a singleton class, all that has to be done is to make it an object instead of class
 
-**imports in scala**
+### imports in scala
 ```
 import somepackage.SomeClass
 import somepackage._
@@ -78,7 +78,7 @@ import somepackage.{ClassA,ClassB}
 import somepackage.SomeObject.something
 ```
 
-**traits**
+### traits
 traits are like interfaces, a class can implement many traits. In scala it is done using the keyword with.
 e.g.,
 ```
@@ -92,12 +92,12 @@ class Square with Shape
 ```
 traits can contains fields and concrete methods which is differant from java, where we cannot have concrete methods
 
-**exception**
+### exception
 throw Exc
 
 <blockquote>April 15th, 2016</blockquote>
 
-**pacakges**
+### pacakges
 same as in java. e.g., 
 ```
 package com.vishnuviswanath
@@ -106,12 +106,12 @@ object MyObject {
 }
 ```
 
-**Nothing**
+### Nothing
 
 It is used to denote nothing, e.g., when there is nothing returned from a function because of some exception.
 It is subtype of all other type.
 
-**Null**
+### Null
 
 Subtype of all reference type
 ```
@@ -119,10 +119,10 @@ val x = null //set x as Null
 val y:String = x //assign x to y, (works because y is of type reference)
 val z:Int = null //try to assign null to z, this will not work because z is not of type refernce in the scala class hierarchy. ( Int is a value type)
 ```
-**Scala class hierarchy**
+### Scala class hierarchy
 <img src="http://www.scala-lang.org/old/sites/default/files/images/classhierarchy.png"/>
 
-**Value Parameters**
+### Value Parameters
 
 ```
 class Student(val name:String, val id:Int)
@@ -135,7 +135,7 @@ class Student(_name:String,_id:Int) {
 }
 ```
 
-**Type Parameters**
+### Type Parameters
 
 e.g.,
 ```
@@ -159,7 +159,7 @@ while calling such function, we don't need explicity specify the type, scala can
 
 <blockquote>April 16th, 2016</blockquote>
 
-**Functions as Objects**
+### Functions as Objects
 
 Functions are objects in scala. Functions are objects with apply methods.
 ```
@@ -179,20 +179,20 @@ new Function1[Int,Int] {
 
 ```
 
-**Type Bound**
+### Type Bound
 
-*Upper Bound* 
+#### Upper Bound
 ```
 //here the type S is a subtype ot IntSet
 def assertAllPos[S<:IntSet](r:S): S 
 ```
-*LowerBounds*
+#### LowerBounds
 ```
 //here the type S is a supertype of NonEmpty
 //or NonEmpty is subtype of S 
 def assertAllPos[S>:NonEmpty](r:S): S 
 ```
-*LowerAndUpper Bound*
+#### LowerAndUpper Bound
 ```
 def assertAllPos[S>:NonEmpty <: IntSet](r:S): S 
 ```
@@ -220,7 +220,7 @@ trait Room[-T,+U] {
 x.isInstanceOf[T] = check if x is intance of type T
 x.asInstanceOf[T] = (T) x  (i.e., cast x to type T)
 
-**Case Classes**
+### Case classes
 
 ```
 train Expr
@@ -233,7 +233,7 @@ object Number  {
 }
 ```
 
-**Pattern Matching**<br/>
+### Pattern Matching
 Compared to java, Scala can have switch cases to match whole *class hierarchy*
 ```
 def eval(e:Expr): Int = e match {
@@ -253,18 +253,18 @@ e match {
 Here *e* is matched with each *pattern* <br/>
 
 Pattern examples:<br/>
-1. Constructors. e.g., Number(n, )Number(_) (**_** doesn't care of the parameter)<br/>
+1. **Constructors**.<br/>e.g., Number(n, )Number(_) (**_** doesn't care of the parameter)<br/>
  	*(will match all values of type (e.g., Number) or its subtype that has been constructed using the arguments that intern matches the patterns argument)*<br/>
-2. variables. e.g., n,e1 etc<br/>
+2. **variables**<br/> e.g., n,e1 etc<br/>
 	*a variable pattern x matches any value, and that value is bound to x so that it can be used in the expression*<br/>
-3. wildcard patterns _<br/>
-4. constants. e.g., 1,"Something" : name constants/constant literals<br/>
+3. **wildcard patterns _**<br/>
+4. **constants** <br/> e.g., 1,"Something" : name constants/constant literals<br/>
 5. combine above and build complicated patterns<br/>
 
 <blockquote>April 20th, 2016</blockquote>
 **Collections**
 
-**Lists**
+### Lists
 ```
 val fruits = List("apples","oranges")
 val nums: List[Int] = List(1,2,3)
@@ -274,8 +274,12 @@ val empty: List[Nothing] = List()
 ```
 lists are immutable in Scala
 
-**Cons**<br/>
+### Cons
 construction operation `::`
 ```
-fruits = "apples" :: "oranges"
+fruits = "apples" :: ("oranges" :: Nil)
 ```
+operators ending in reverse are considered right hand operand in infix rotation<br/>
+Here **::** is considered as a function of it's right hand side. either the list, or Nil in the above example
+
+

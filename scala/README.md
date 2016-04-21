@@ -130,6 +130,37 @@ e.g.,
 (x,y => x*y) //scala will interpret the types
 ```
 
+### Currying
+
+```
+
+def sum(f:Int=>Int): (Int,Int)=>Int = {
+  def sumF(a:Int,b:Int): Int = {
+    if (a>b) 0
+    else f(a)+sumF(a+1,b)
+  }
+  sumF 
+}
+```
+***note that there is no need for writing return keyoword in scala***
+
+now we can define the function sumCubes as
+```
+def sumCubes = sum(x=>x*x*x)
+//this can be called as
+sumCubes(1,10)
+```
+What happened here is that, when we called `sum(x=>x*x*x)`, the `x=>x*x*x` is set as a function **f** and the function **sumF** defined earlier is returned. => giving us a function that takes two arguments and returns an int, and which internally uses the cube function passed.<br/>
+so we can define another function
+`def sumInt = sum(x=>x)` and so on.
+<br/><br/>
+we can also define more functions like sumInt and sumCube. But there is a way by which we can avoid that. e.g., we can call
+```
+sum(cube)(1,10) 
+//this is equivalent to (sum(cube))(1,10)
+```
+**This is called Currying**: it is a special syntax for cases where functions return functions
+
 ### Nothing
 
 It is used to denote nothing, e.g., when there is nothing returned from a function because of some exception.

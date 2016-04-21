@@ -16,7 +16,7 @@ class Cons[T](val head:T,val tail: List[T]) extends List[T] {
   
 }
 
-object Nil extends List[Nothing] {
+object Nil2 extends List[Nothing] {
   def isEmpty: Boolean = true
   def head: Nothing = throw new NoSuchElementException("Nil.head")
   def tail: Nothing = throw new NoSuchElementException("Nil.head")
@@ -33,7 +33,7 @@ object List {
 }*/
 
 object test {
-  val x: List[String] = Nil
+  val x: List[String] = Nil2
 }
 
 trait Room[-T,+U] {

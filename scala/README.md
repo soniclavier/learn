@@ -105,6 +105,30 @@ package com.vishnuviswanath
 object MyObject {
 }
 ```
+### Higher-Order Functions
+functions that take functions as parameters or return functions
+```
+def sum(f:Int=>Int, a:Int,b:Int): Int = 
+	if (a>b) 0
+	else f(a) + sum(f,a+1,b)
+	
+def sumInts(a:Int,b:Int) = sum(id,a,b)
+def sumCubes(a:Int,b:Int) = sum(cubes,a,b)
+
+def id(x:Int) = x
+def cubes(x:Int) = x*x*x
+```
+**function types**
+`A => B`<br/>
+is a function that takes argument of type A and returns result of type B
+
+### Anonymous functions
+*literals for functions (no names, like a string "abc")*
+e.g.,
+```
+(x:Int,y:Int) => x*y
+(x,y => x*y) //scala will interpret the types
+```
 
 ### Nothing
 

@@ -253,13 +253,13 @@ e match {
 Here *e* is matched with each *pattern* <br/>
 
 Pattern examples:<br/>
-1. Constructors. e.g., Number(n, )Number(_) (**_** doesn't care of the parameter)
- 	*(will match all values of type (e.g., Number) or its subtype that has been constructed using the arguments that intern matches the patterns argument)*
-2. variables. e.g., n,e1 etc
-	*a variable pattern x matches any value, and that value is bound to x so that it can be used in the expression*
-3. wildcard patterns _
-4. constants. e.g., 1,"Something" : name constants/constant literals
-5. combine above and build complicated patterns
+1. Constructors. e.g., Number(n, )Number(_) (**_** doesn't care of the parameter)<br/>
+ 	*(will match all values of type (e.g., Number) or its subtype that has been constructed using the arguments that intern matches the patterns argument)*<br/>
+2. variables. e.g., n,e1 etc<br/>
+	*a variable pattern x matches any value, and that value is bound to x so that it can be used in the expression*<br/>
+3. wildcard patterns _<br/>
+4. constants. e.g., 1,"Something" : name constants/constant literals<br/>
+5. combine above and build complicated patterns<br/>
 
 <blockquote>April 20th, 2016</blockquote>
 **Collections**

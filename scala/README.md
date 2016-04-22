@@ -10,6 +10,18 @@ class Rational(x:Int,y:Int) {
   def this(x:Int) = this(x,1)
 ```
 
+### Loops
+```
+for(x <- 0 to 10) println(x) //prints 0 to 10
+for(x <- 0 until 10) println(x) //prints 0 to 9
+
+val ls = List(1,2,3)
+for (l <- ls) println(l) //prints 1,2,3
+ls.foreach{println} //prints 1,2,3
+
+val ls = List(1,2,3,1)
+for( l <- ls if l == 1) println(l) //prints 1,1
+```
 ### require()
 
 can be used to specify a condition/requirement

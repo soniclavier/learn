@@ -282,7 +282,7 @@ Functions are objects in scala. Functions are objects with apply methods.
 ```
 //function type A=>B
 package scala
-train Function1[A,B] {
+trait Function1[A,B] {
 	def apply(x:A):B
 }
 

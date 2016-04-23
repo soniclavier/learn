@@ -117,6 +117,26 @@ package com.vishnuviswanath
 object MyObject {
 }
 ```
+
+### Type Alias
+from [here](https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/ch10.html)
+Used for giving an aliases. <br/>
+It can be applied on classes.For e.g., Int,Tuple etc
+```
+type Whole = Int    //int is an abstract class
+val x: Whole = 5
+
+type User = Tuple2[Int,String]      //Tuple2 is an instantiable class
+val u: User = new User(1,"Vishnu")
+
+
+type T3[A,B,C] = Tuple3[A,B,C]   //a tuple3 of any 3 type parameters
+val things = new T3(1,'a',true)
+val things = new T3("vishnu",1.0,'a')
+```
+
+
+
 ### Higher-Order Functions
 functions that take functions as parameters or return functions
 ```

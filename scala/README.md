@@ -118,10 +118,13 @@ object MyObject {
 }
 ```
 
+
+## Advanced 
+
 ### Type Alias
 from [here](https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/ch10.html).
 
-Used for giving a aliases. <br/>
+Used for giving aliases. <br/>
 It can be applied on classes.For e.g., Int,Tuple etc
 ```
 type Whole = Int    //int is an abstract class
@@ -153,9 +156,16 @@ trait UserFactory extends Factory {
 ```
 Type alias can also defined on functions
 ```
-type Set = Int => Boolean
+type Set = Int => Boolean   // a function that takes Int as input and returns Boolean
 def contains(s:Set,elem:Int): Boolean = s(elem)
 ```
+
+### ??? (Not yet implemented)
+In scala, we can use ??? to denote that the function is not yet implemented. e.g.,
+```
+def myFun(key: Int): Int = ??? //here only signature is defined, implementation is not provided
+```
+??? is not like an abstract method, but is like a placeholder. Later when we are clear on how the function body has to be implemented, we can replace the ??? with the implementation.
 
 ### Higher-Order Functions
 functions that take functions as parameters or return functions

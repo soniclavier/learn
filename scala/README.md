@@ -119,8 +119,9 @@ object MyObject {
 ```
 
 ### Type Alias
-from [here](https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/ch10.html)
-Used for giving an aliases. <br/>
+from [here](https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/ch10.html).
+
+Used for giving a aliases. <br/>
 It can be applied on classes.For e.g., Int,Tuple etc
 ```
 type Whole = Int    //int is an abstract class
@@ -134,8 +135,27 @@ type T3[A,B,C] = Tuple3[A,B,C]   //a tuple3 of any 3 type parameters
 val things = new T3(1,'a',true)
 val things = new T3("vishnu",1.0,'a')
 ```
+We can also have abstract Type Alias, e.g., in a Trait. In this case, the implementing class will have to define what actually those aliases are before using.
+```
+class User(val name: String)
 
+trait Factory { 
+	type A;  //the type alias is declared but not defined
+	def create: A 
+}
+defined trait Factory
 
+trait UserFactory extends Factory {
+    type A = User   //here the abstract alias A is defined as User
+    def create = new User("")
+    }
+
+```
+Type alias can also defined on functions
+```
+type Set = Int => Boolean
+def contains(s:Set,elem:Int): Boolean = s(elem)
+```
 
 ### Higher-Order Functions
 functions that take functions as parameters or return functions

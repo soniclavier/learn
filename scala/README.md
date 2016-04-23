@@ -119,7 +119,7 @@ object MyObject {
 ```
 
 
-## Advanced 
+# Advanced 
 
 ### Type Alias
 from [here](https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/ch10.html).
@@ -161,12 +161,18 @@ def contains(s:Set,elem:Int): Boolean = s(elem)
 ```
 
 ### ??? (Not yet implemented)
-In scala, we can use ??? to denote that the function is not yet implemented. e.g.,
+<blockquote>This is my favorite! :)</blockquote>
+In scala, we can use ??? to denote that the function/some part of the code is not yet implemented. e.g.,
 ```
 def myFun(key: Int): Int = ??? //here only signature is defined, implementation is not provided
 ```
-??? is not like an abstract method, but is like a placeholder. Later when we are clear on how the function body has to be implemented, we can replace the ??? with the implementation.
+??? is not like an abstract method, but is like a placeholder. Later when we are know/decide how the function body has to be implemented, we can replace the ??? with the implementation.
 
+```
+if(???) ???
+else if(???) ???
+else sumotherfunction(???)
+```
 ### Higher-Order Functions
 functions that take functions as parameters or return functions
 ```

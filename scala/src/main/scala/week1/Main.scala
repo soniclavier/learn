@@ -52,7 +52,9 @@ object Main {
   def main(s:Array[String]):Unit = {
     //println(pascal(4,10))
     //println(balance(List('(','(',')',')'),0))
-    println(countChange(4,List(1,2)))
+    //println(countChange(4,List(1,2)))
+    type Set = Int => Boolean
+    def contains(s:Set,elem:Int): Boolean = s(elem)
         
   }
 }

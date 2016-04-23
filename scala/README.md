@@ -256,7 +256,7 @@ class Student(_name:String,_id:Int) {
 
 e.g.,
 ```
-train MyTrain[T]
+trait MyTrain[T]
 class Student[T](val name:String, val id: T)
 ```
 
@@ -339,7 +339,7 @@ x.asInstanceOf[T] = (T) x  (i.e., cast x to type T)
 ### Case classes
 
 ```
-train Expr
+trait Expr
 case class Number(n:Int) extends Expr
 ```
 case classes implicitly defines companion objects with apply methods

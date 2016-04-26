@@ -18,6 +18,17 @@ object Main {
   def diff(s: Set, t: Set): Set = {
     (x:Int) => (s(x) && !t(x))
   }
+  
+  def forall(s: Set, p: Int => Boolean): Boolean = {
+    def iter(a: Int): Boolean = {
+     if (contains(s,a)) p(a)
+     else if (???) ???
+     else iter(???)
+   }
+   iter(???)
+  }
+  
+  
   def main(args:Array[String]):Unit = {
     val s1 = singletonSet(1)
     val s2 = singletonSet(2)

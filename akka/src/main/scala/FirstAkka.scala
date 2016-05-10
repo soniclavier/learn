@@ -1,12 +1,18 @@
-import akka.actor._
-import akka.routing.RoundRobinRouter
-import akka.util.Duration
-import akka.util.duration._
+import akka.actor.Actor
+import akka.actor.ActorSystem
+import akka.actor.Props
 
-
-object FirstAkka {
+object FirstAkka extends App {
+  val system = ActorSystem("HelloSystem")
+  val helloActor = system.actorOf(Props[HelloActor], name="helloactor")
   
-  def main(args: Array[String]): Unit = {
-    
+  helloActor ! "hello"
+  helloActor ! "bye"
+}
+
+class HelloActor extends Actor {
+  def receive = {
+    case "hello" => println("hello, how are you")
+    case "bye"   => println("bye bye")
   }
 }

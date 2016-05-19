@@ -5,10 +5,11 @@ object Main {
   def contains(s: Set, elem: Int): Boolean = s(elem)
   
   def singletonSet(elem: Int): Set = {
-    (x:Int) => x == elem
+    (x:Int) => (x==elem)
   }
+  
   def union(s: Set, t: Set): Set = {
-    (x:Int) => (s(x) || t(x))
+    (x:Int) => s(x) || t(x)
   }
   
   def intersect(s: Set, t: Set): Set = {
@@ -19,14 +20,32 @@ object Main {
     (x:Int) => (s(x) && !t(x))
   }
   
+  def filter(s: Set, p: Int => Boolean): Set = {
+    (x:Int) => s(x) && p(x)
+  }
+  
   def forall(s: Set, p: Int => Boolean): Boolean = {
     def iter(a: Int): Boolean = {
-     if (contains(s,a)) p(a)
-     else if (???) ???
-     else iter(???)
+     if (contains(s,a) && !p(a)) false  
+     else if (a>1000) true
+     else iter(a+1)
    }
-   iter(???)
+   iter(-1000)
   }
+  
+  def exists(s: Set, p: Int => Boolean): Boolean =  {
+    def iter(a: Int): Boolean = {
+     if (contains(s,a) && p(a)) true  
+     else if (a>1000) false
+     else iter(a+1)
+   }
+   iter(-1000)
+  }
+  
+  /* TODO
+  def map(s: Set, f: Int => Int): Set = {
+    
+  }*/
   
   
   def main(args:Array[String]):Unit = {

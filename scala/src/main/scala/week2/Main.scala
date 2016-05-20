@@ -33,19 +33,23 @@ object Main {
    iter(-1000)
   }
   
+  //1. forall should return false when some p is true, 
+  //therefore we have to negate the p (because the originally forall returned false if any p is false)
+  //forall returned false for 1 element using !p => there exists a element for of s for which p is true (negate the final result)
+  //2. if the function forall is returned true implies that the function !p is true for all elements
+  //=> for all the elements p is false => (negate the final result)
   def exists(s: Set, p: Int => Boolean): Boolean =  {
-    def iter(a: Int): Boolean = {
-     if (contains(s,a) && p(a)) true  
-     else if (a>1000) false
-     else iter(a+1)
-   }
-   iter(-1000)
+    //to negate the function p, we have to apply the function on some element (x) and negate the result
+    //http://stackoverflow.com/questions/12681616/how-to-use-refer-to-the-negation-of-a-boolean-function-in-scala
+    !forall(s,x => !p(x))
   }
   
-  /* TODO
+  
   def map(s: Set, f: Int => Int): Set = {
-    
-  }*/
+    def iter(a: Int): Set =  {
+      if (contains(s,a)) (x:Int) => (y:Int f(x)=>s(x)) 
+    }
+  }
   
   
   def main(args:Array[String]):Unit = {

@@ -45,10 +45,9 @@ object Main {
   }
   
   
+  //set is a function of the form Int => Boolean
   def map(s: Set, f: Int => Int): Set = {
-    def iter(a: Int): Set =  {
-      if (contains(s,a)) (x:Int) => (y:Int f(x)=>s(x)) 
-    }
+   x:Int => exists(s, (y:Int)=>f(y)==x)
   }
   
   

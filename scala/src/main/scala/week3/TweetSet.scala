@@ -1,4 +1,4 @@
-package objsets
+package week3
 
 
 import TweetReader._
@@ -55,6 +55,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
+
     def union(that: TweetSet): TweetSet = ???
   
   /**
@@ -109,6 +110,11 @@ abstract class TweetSet {
 
 class Empty extends TweetSet {
     def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
+    
+   
+    override def union(that: TweetSet): TweetSet = that
+    
+    def isEmpty = true
   
   /**
    * The following methods are already implemented
@@ -131,10 +137,19 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
       leftRight
     }
     
+    override def union(that: TweetSet): TweetSet = {
+      val combined = left.union(right).union(that)
+      if (!combined.contains(elem)) {
+        combined.incl(elem)
+      } else
+        combined
+    }
+    
     
   /**
    * The following methods are already implemented
    */
+  def isEmpty = false
 
   def contains(x: Tweet): Boolean =
     if (x.text < elem.text) left.contains(x)
@@ -197,5 +212,13 @@ object GoogleVsApple {
 
 object Main extends App {
   // Print the trending tweets
-  GoogleVsApple.trending foreach println
+  //GoogleVsApple.trending foreach println
+ 
+    val s1: TweetSet = new Empty().incl(new Tweet("vishnu","tweet1",1))
+    val s2: TweetSet = new Empty().incl(new Tweet("vishnu","tweet2",2))
+    val s3: TweetSet = new Empty().incl(new Tweet("vishnu","tweet2",1))
+    s1.union(s2).union(s3).foreach(println)
+    
+    
+    println("hi")
 }

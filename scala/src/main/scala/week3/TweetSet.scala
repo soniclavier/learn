@@ -156,12 +156,17 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
       lazy val rightMost = right.mostRetweeted
       val leftRetweets = if (left.isEmpty) 0 else leftMost.retweets
       val rightRetweets = if (right.isEmpty) 0 else rightMost.retweets
-      if (2*elem.retweets > leftRetweets + rightRetweets)
-        elem
-      else if(2*rightRetweets > leftRetweets + elem.retweets)
-        rightMost
-      else
-        leftMost
+      if (elem.retweets > leftRetweets) {
+        if (elem.retweets > rightRetweets)
+          elem
+        else
+          rightMost
+      } else {
+        if (rightRetweets > leftRetweets)
+          rightMost
+        else
+          leftMost
+      }
     }
     
     override def descendingByRetweet: TweetList = {
@@ -242,9 +247,11 @@ object Main extends App {
     val s3: TweetSet = new Empty().incl(new Tweet("vishnu","tweet2",4))
 
     val s = s1.union(s2).union(s3)
-    s.foreach(println)
+    //s.foreach(println)
     println("----")
-    println(s.mostRetweeted)
+    //println(s.mostRetweeted)
+    var list = s.descendingByRetweet
+    list.foreach(println)
     
     
 }

@@ -154,15 +154,20 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     override def mostRetweeted: Tweet = {
       lazy val leftMost = left.mostRetweeted
       lazy val rightMost = right.mostRetweeted
-      
-      if (2*elem.retweets > leftMost.retweets + rightMost.retweets)
+      val leftRetweets = if (left.isEmpty) 0 else leftMost.retweets
+      val rightRetweets = if (right.isEmpty) 0 else rightMost.retweets
+      if (2*elem.retweets > leftRetweets + rightRetweets)
         elem
-      else if(2*rightMost.retweets > leftMost.retweets + elem.retweets)
+      else if(2*rightRetweets > leftRetweets + elem.retweets)
         rightMost
       else
         leftMost
     }
-    override def descendingByRetweet: TweetList = ???
+    
+    override def descendingByRetweet: TweetList = {
+      val tweet = mostRetweeted
+      new Cons(tweet, remove(mostRetweeted).descendingByRetweet)
+    }
     
   /**
    * The following methods are already implemented
@@ -232,14 +237,14 @@ object Main extends App {
   // Print the trending tweets
   //GoogleVsApple.trending foreach println
  
-    val s1: TweetSet = new Empty().incl(new Tweet("vishnu","tweet1",1))
-    val s2: TweetSet = new Empty().incl(new Tweet("vishnu","tweet2",2))
-    val s3: TweetSet = new Empty().incl(new Tweet("vishnu","tweet2",1))
-    val s4 = s1.union(s2).union(s3)
-    s4.foreach(println)
+    val s1: TweetSet = new Empty().incl(new Tweet("vishnu","tweet1",1)).incl(new Tweet("vishnu","tweet7",12)).incl(new Tweet("vishnu","tweet3",8))
+    val s2: TweetSet = new Empty().incl(new Tweet("vishnu","tweet4",10))
+    val s3: TweetSet = new Empty().incl(new Tweet("vishnu","tweet2",4))
+
+    val s = s1.union(s2).union(s3)
+    s.foreach(println)
+    println("----")
+    println(s.mostRetweeted)
     
-    println(s4.mostRetweeted)
     
-    
-    println("hi")
 }

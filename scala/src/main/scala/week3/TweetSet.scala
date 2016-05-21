@@ -106,6 +106,8 @@ abstract class TweetSet {
    * This method takes a function and applies it to every element in the set.
    */
   def foreach(f: Tweet => Unit): Unit
+  
+  def isEmpty: Boolean = ???
 }
 
 class Empty extends TweetSet {
@@ -114,7 +116,11 @@ class Empty extends TweetSet {
    
     override def union(that: TweetSet): TweetSet = that
     
-    def isEmpty = true
+    override def descendingByRetweet: TweetList = Nil
+    
+    override def mostRetweeted: Tweet = throw new NoSuchElementException 
+    
+    override def isEmpty = true
   
   /**
    * The following methods are already implemented
@@ -145,11 +151,23 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
         combined
     }
     
+    override def mostRetweeted: Tweet = {
+      lazy val leftMost = left.mostRetweeted
+      lazy val rightMost = right.mostRetweeted
+      
+      if (2*elem.retweets > leftMost.retweets + rightMost.retweets)
+        elem
+      else if(2*rightMost.retweets > leftMost.retweets + elem.retweets)
+        rightMost
+      else
+        leftMost
+    }
+    override def descendingByRetweet: TweetList = ???
     
   /**
    * The following methods are already implemented
    */
-  def isEmpty = false
+  override def isEmpty = false
 
   def contains(x: Tweet): Boolean =
     if (x.text < elem.text) left.contains(x)
@@ -217,7 +235,10 @@ object Main extends App {
     val s1: TweetSet = new Empty().incl(new Tweet("vishnu","tweet1",1))
     val s2: TweetSet = new Empty().incl(new Tweet("vishnu","tweet2",2))
     val s3: TweetSet = new Empty().incl(new Tweet("vishnu","tweet2",1))
-    s1.union(s2).union(s3).foreach(println)
+    val s4 = s1.union(s2).union(s3)
+    s4.foreach(println)
+    
+    println(s4.mostRetweeted)
     
     
     println("hi")

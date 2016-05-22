@@ -40,7 +40,11 @@ object Huffman {
 
     def main(args: Array[String]): Unit = {
     val ord = makeOrderedLeafList(times(List('a','b','c','a','a','d')))
-    println(until(singleton,combine)(ord))
+    val tree = until(singleton,combine)(ord).head
+    println(tree)
+    val bits: List[Bit] = List(1,0,0,0,1,0)
+    println(bits)
+    println(decode(tree,bits))
   }
 
   // Part 2: Generating Huffman trees
@@ -183,7 +187,16 @@ object Huffman {
    * This function decodes the bit sequence `bits` using the code tree `tree` and returns
    * the resulting list of characters.
    */
-    def decode(tree: CodeTree, bits: List[Bit]): List[Char] = ???
+    def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
+      
+      def iter(subTree: CodeTree,bits: List[Bit]) : List[Char] = {
+        subTree match {
+        case Leaf(c, w)       => if (bits.isEmpty) List(c) else c :: iter(tree,bits)  
+        case Fork(l, r, c, w) => if (bits.head == 0) iter(l, bits.tail) else iter(r, bits.tail)
+      }
+      }
+     iter(tree,bits)
+  }
   
   /**
    * A Huffman coding tree for the French language.

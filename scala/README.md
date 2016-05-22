@@ -416,35 +416,6 @@ Pattern examples:<br/>
 5. combine above and build complicated patterns<br/>
 
 
-<blockquote>April 20th, 2016</blockquote>
-# Collections
-
-### Lists
-```
-val fruits = List("apples","oranges")
-val nums: List[Int] = List(1,2,3)
-val listList: List[List[Int]] = List(List(1,3,4),List(2,3,4))
-val empty: List[Nothing] = List()
-
-```
-lists are immutable in Scala
-
-#### Cons
-construction operation `::`
-```
-fruits = "apples" :: ("oranges" :: Nil)
-```
-operators ending in reverse are considered right hand operand in infix rotation<br/>
-Here **::** is considered as a function of it's right hand side. either the list, or Nil in the above example
-
-#### List patterns
-```
-1 :: 2 :: xs \\lists that start with 1 and then 2
-x :: Nil \\list of length 1 (x means it can be anything, but only 1 item present)
-List() \\empty list
-
-```
-
 <blockquote>May 21st, 2016</blockquote>
 ### Call-by-name and Call-by-value
 
@@ -495,4 +466,4 @@ in add again, x = 1
 ```
 As we can see, in the call-by-name case the println inside getMeSomeNum exectued twice, where as in the call-by-value it was executed only once. This is because in call-by-value case, the function getMeSomeNum was executed before passing it on to the add function**(value is passed)**. In the case of call-by-name getMeSomeNum was executed everytime variable `x` was accessed inside the add function. This is because, here the function getMeSomeNum was passsed without execution**(passed as name)** not value, and was evaluated each time that name `x` was accessed.
 
-
+[Part2](https://github.com/soniclavier/learn/blob/master/README_Part2.md)

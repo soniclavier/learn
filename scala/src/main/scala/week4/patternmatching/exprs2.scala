@@ -24,6 +24,15 @@ class exprs2 {
   }
 }
 
+class MyClass(name: String)  {
+  
+}
+object myObject {
+  def apply(x: String) = ???
+}
+case class MyCaseClass(name:String)
+
+
 trait Expr 
 
 //scala will implicity add companion Objects for case classes

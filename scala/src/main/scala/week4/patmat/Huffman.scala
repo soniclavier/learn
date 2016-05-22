@@ -1,6 +1,7 @@
 package week4.patmat
 
 import common._
+import scala.collection.mutable.ListBuffer
 
 /**
  * Assignment 4: Huffman coding
@@ -24,14 +25,22 @@ object Huffman {
   
 
   // Part 1: Basics
-    def weight(tree: CodeTree): Int = ??? // tree match ...
+    def weight(tree: CodeTree): Int = tree match {
+      case Fork(l,r,_,w) => w
+      case Leaf(_,w) => w
+    }
   
-    def chars(tree: CodeTree): List[Char] = ??? // tree match ...
+    def chars(tree: CodeTree): List[Char] = tree match {
+      case Fork(_,_,c,_) => c
+      case Leaf(c,_) => c :: Nil
+    }
   
   def makeCodeTree(left: CodeTree, right: CodeTree) =
     Fork(left, right, chars(left) ::: chars(right), weight(left) + weight(right))
 
-
+    def main(args: Array[String]): Unit = {
+    println(makeOrderedLeafList(times(List('a','b','c','a','a','c','d'))))
+  }
 
   // Part 2: Generating Huffman trees
 
@@ -69,7 +78,16 @@ object Huffman {
    *       println("integer is  : "+ theInt)
    *   }
    */
-    def times(chars: List[Char]): List[(Char, Int)] = ???
+    def times(chars: List[Char]): List[(Char, Int)] = {
+    def iter(chars: List[Char],map: Map[Char,Int]): Map[Char,Int] = {
+      val head = chars.head
+      val count = map.get(head).getOrElse(0) + 1
+      val tail = chars.tail
+      if (tail.isEmpty) map + ((head,count))
+      else iter(tail,map + ((head,count)))
+    }
+    iter(chars,Map()).toList
+  }
   
   /**
    * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
@@ -78,12 +96,22 @@ object Huffman {
    * head of the list should have the smallest weight), where the weight
    * of a leaf is the frequency of the character.
    */
-    def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = ???
+    def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = {
+      val sorted = freqs.sortBy{case (x,y) => y}
+      /*
+      val orderedLeaf = ListBuffer[Leaf]()
+      for(pair <- sorted) {
+        val leaf = Leaf(pair._1,pair._2)
+        orderedLeaf += leaf
+      }
+      orderedLeaf.toList*/
+      sorted.map((tuple) => Leaf(tuple._1,tuple._2))
+    }
   
   /**
    * Checks whether the list `trees` contains only one single code tree.
    */
-    def singleton(trees: List[CodeTree]): Boolean = ???
+    def singleton(trees: List[CodeTree]): Boolean = trees.size == 1
   
   /**
    * The parameter `trees` of this function is a list of code trees ordered

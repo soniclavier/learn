@@ -39,7 +39,8 @@ object Huffman {
     Fork(left, right, chars(left) ::: chars(right), weight(left) + weight(right))
 
     def main(args: Array[String]): Unit = {
-    println(makeOrderedLeafList(times(List('a','b','c','a','a','c','d'))))
+    val ord = makeOrderedLeafList(times(List('a','b','c','a','a','d')))
+    println(until(singleton,combine)(ord))
   }
 
   // Part 2: Generating Huffman trees
@@ -125,7 +126,20 @@ object Huffman {
    * If `trees` is a list of less than two elements, that list should be returned
    * unchanged.
    */
-    def combine(trees: List[CodeTree]): List[CodeTree] = ???
+    def combine(trees: List[CodeTree]): List[CodeTree] =  {
+      if (trees.size < 2) trees
+      val s1 = trees.head
+      val s2 = trees.tail.head
+      val f:Fork = (s1,s2) match {
+        case ((Leaf(c1,w1),Leaf(c2,w2))) => Fork(s1,s2,List(c1).union(List(c2)),w1+w2)
+        case ((Leaf(c1,w1),Fork(l,r,c2,w2))) => Fork(s1,s2,List(c1).union(c2),w1+w2)
+        case ((Fork(l,r,c1,w1),Leaf(c2,w2))) => Fork(s1,s2,c1.union(List(c2)),w1+w2)
+        case ((Fork(l,r,c1,w1),Fork(l2,r2,c2,w2))) => Fork(s1,s2,c1.union(c2),w1+w2)
+      }
+      val tail = trees.tail.tail
+      
+      (f :: tail).sortWith((s1,s2)=> weight(s1) < weight(s2))
+    }
   
   /**
    * This function will be called in the following way:
@@ -144,7 +158,10 @@ object Huffman {
    *    the example invocation. Also define the return type of the `until` function.
    *  - try to find sensible parameter names for `xxx`, `yyy` and `zzz`.
    */
-    def until(xxx: ???, yyy: ???)(zzz: ???): ??? = ???
+    def until(singleton: List[CodeTree] => Boolean, combine: List[CodeTree]=>List[CodeTree])(tree: List[CodeTree]): List[CodeTree] = {
+      if (singleton(tree)) tree
+      else until(singleton,combine)(combine(tree))
+    }
   
   /**
    * This function creates a code tree which is optimal to encode the text `chars`.
@@ -152,7 +169,10 @@ object Huffman {
    * The parameter `chars` is an arbitrary text. This function extracts the character
    * frequencies from that text and creates a code tree based on them.
    */
-    def createCodeTree(chars: List[Char]): CodeTree = ???
+    def createCodeTree(chars: List[Char]): CodeTree = {
+      val ord = makeOrderedLeafList(times(chars))
+      until(singleton,combine)(ord).head
+    }
   
 
   // Part 3: Decoding

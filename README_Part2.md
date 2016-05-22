@@ -9,6 +9,11 @@ val listList: List[List[Int]] = List(List(1,3,4),List(2,3,4))
 val empty: List[Nothing] = List()
 
 ```
+List has mainly three operations, 
+- head : first element of list
+- tail : list of elements except the first
+- isEmpty : if list is empty or not
+
 lists are immutable in Scala
 
 #### Cons
@@ -16,7 +21,7 @@ construction operation `::`
 ```
 fruits = "apples" :: ("oranges" :: Nil)
 ```
-operators ending in reverse are considered right hand operand in infix rotation<br/>
+operators ending in ":" reverse are considered right hand operand in infix rotation<br/>
 Here **::** is considered as a function of it's right hand side. either the list, or Nil in the above example
 
 #### List patterns

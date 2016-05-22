@@ -2,6 +2,7 @@ package week4
 
 import java.util.NoSuchElementException
 
+
 trait List[+T] {
   def isEmpty: Boolean
   def head: T

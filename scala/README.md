@@ -383,6 +383,7 @@ Pattern examples:<br/>
 4. **constants** <br/> e.g., 1,"Something" : name constants/constant literals<br/>
 5. combine above and build complicated patterns<br/>
 
+
 <blockquote>April 20th, 2016</blockquote>
 # Collections
 
@@ -411,4 +412,55 @@ x :: Nil \\list of length 1 (x means it can be anything, but only 1 item present
 List() \\empty list
 
 ```
+
+<blockquote>May 21st, 2016</blockquote>
+### Call-by-name and Call-by-value
+
+[SO Question](http://stackoverflow.com/questions/13337338/call-by-name-vs-call-by-value-in-scala-clarification-needed)
+#### Side-effects
+A function that does not have side effect, just computes the result and returns it, where as a function with side-effect will also do something extra (may be call someother function) before returning the value.
+
+#### Syntax
+Call by name and value have different syntaxes<br/>
+**Call-by-value (more common)**
+```
+def addCallByValue(x: Int) = { 
+  println("in add, x = "+x)
+  println("in add again, x = "+x)
+}
+```
+**Call-by-name**
+```
+def addCallByName(x: => Int) = { 
+  println("in add, x = "+x)
+  println("in add again, x = "+x)
+}
+```
+So the difference in syntax is that call-by-value is of the form **arg: Type** where as call-by-name is of the form **arg: => Type**
+#### Difference wrt to evaluation
+Consider the below function that returns an Integer ( this is an example of function with side-effect)
+```
+def getMeSomeNum() = {
+  println("in get me some number, doing something extra here") //this is the side-effect part
+  1 //returning 1
+}
+```
+Now let's call our two versions of add with the above getMeSomeNum function
+```
+addCallByValue(getMeSomeNum())
+addCallByName(geMeSomeNum())
+
+//result of call by value
+in get me some number, doing something extra here
+in add, x = 1
+in add again, x = 1
+
+//result of call by name
+in get me some number, doing something extra here
+in add, x = 1
+in get me some number, doing something extra here
+in add again, x = 1
+```
+As we can see, in the call-by-name case the println inside getMeSomeNum exectued twice, where as in the call-by-value it was executed only once. This is because in call-by-value case, the function getMeSomeNum was executed before passing it on to the add function**(value is passed)**. In the case of call-by-name getMeSomeNum was executed everytime variable `x` was accessed inside the add function. This is because, here the function getMeSomeNum was passsed without execution**(passed as name)** not value, and was evaluated each time that name `x` was accessed.
+
 

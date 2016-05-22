@@ -118,6 +118,38 @@ object MyObject {
 }
 ```
 
+### Objects, Case class vs Class
+Consdier below examples of class, objects and case classes
+```
+class MyClass(name: String)  {
+}
+object myObject {
+ def apply(x:String) = ???
+}
+object myObject2 {
+}
+case class MyCaseClass(name:String)
+```
+MyClass can be instantiated as below
+```
+var x = new MyClass("something") // we cannot call var x = MyClass("something"), need the new keyword
+```
+myObject can be instantiated as below
+```
+var x = myObject("something") //we are able to pass the parameter because of the apply method which takes string parameter
+//we could also do
+var x = myObject
+//myObject2 can be instantiated as below
+var x = myObject2
+```
+case class, MyCaseClass can be instantiated as follows
+```
+var x = MyCaseClass("something")
+//this is because, when a case class is created, scala implicitly creates a companion object for the case class with apply method, like.
+object MyCaseClass {
+ def apply(name: String) = new MyCaseClss(name)
+}
+```
 
 # Advanced 
 

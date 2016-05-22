@@ -15,4 +15,5 @@ object week4worksheet {
 	def testprint() : String = "test"         //> testprint: ()String
  testprint                                        //> res0: String = test
  exprs.show(Sum(Number(1),Number(44)))            //> res1: String = 1 + 44
+ exprs.eval(Prod(Number(1),Number(2)))            //> res2: Int = 2
 }

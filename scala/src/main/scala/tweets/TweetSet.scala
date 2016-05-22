@@ -1,6 +1,7 @@
-package week3
+package tweets
 
 import TweetReader._
+import tweets.TweetReader
 
 /**
  * A class to represent tweets.

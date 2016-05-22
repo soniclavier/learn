@@ -1,4 +1,4 @@
-package week3
+package tweets
 
 // real tweet data, collected on Oct 1
 object TweetData {

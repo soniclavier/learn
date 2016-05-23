@@ -31,6 +31,7 @@ x :: Nil \\list of length 1 (x means it can be anything, but only 1 item present
 List() \\empty list
 
 ```
+<blockquote>May 23rd, 2016</blockquote>
 Other list functions
 
 function|use

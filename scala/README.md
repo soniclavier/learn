@@ -151,6 +151,18 @@ object MyCaseClass {
 }
 ```
 
+### Functions
+```
+def funName(arg1: ArgType,arg2: Arg2Type,..): ReturnType = {
+  function body
+  somevar (this will be returned)
+}
+```
+- in scala, the last line executed in a function body will be returned.
+- scala can interpret the return type by checking this `: ReturnType` is optional
+
+<blockquote>ReturnType must be specified for recursive call, This is because scala checks the last line in fun body to identify the return type, and this will end up in infinite loop incase of recursive call</blockquote>
+
 # Advanced 
 
 ### Type Alias
@@ -465,5 +477,15 @@ in get me some number, doing something extra here
 in add again, x = 1
 ```
 As we can see, in the call-by-name case the println inside getMeSomeNum exectued twice, where as in the call-by-value it was executed only once. This is because in call-by-value case, the function getMeSomeNum was executed before passing it on to the add function**(value is passed)**. In the case of call-by-name getMeSomeNum was executed everytime variable `x` was accessed inside the add function. This is because, here the function getMeSomeNum was passsed without execution**(passed as name)** not value, and was evaluated each time that name `x` was accessed.
+
+For call-by-name, the evaluation of the passed expression is carried out only at the last( therefore, the expression/function is passed along with all the subsequent function calls before being evaluated). 
+
+### Value defenition
+```
+val x = 2
+val y = square(x)
+```
+Here `y` is **by-value** defenition. i.e., it is evalauted  when `val y=square(x)` is defined.
+we can do `def x = 2` but there is no point in doing that because we would rather want the variable x to be evaluated when defined, since there is no difference if it evaluated at runtime or at the time of defenition.
 
 [Part2](https://github.com/soniclavier/learn/blob/master/scala/README_Part2.md)

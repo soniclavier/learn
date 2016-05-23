@@ -466,4 +466,4 @@ in add again, x = 1
 ```
 As we can see, in the call-by-name case the println inside getMeSomeNum exectued twice, where as in the call-by-value it was executed only once. This is because in call-by-value case, the function getMeSomeNum was executed before passing it on to the add function**(value is passed)**. In the case of call-by-name getMeSomeNum was executed everytime variable `x` was accessed inside the add function. This is because, here the function getMeSomeNum was passsed without execution**(passed as name)** not value, and was evaluated each time that name `x` was accessed.
 
-[Part2](https://github.com/soniclavier/learn/blob/master/README_Part2.md)
+[Part2](https://github.com/soniclavier/learn/blob/master/scala/README_Part2.md)

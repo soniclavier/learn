@@ -31,3 +31,13 @@ x :: Nil \\list of length 1 (x means it can be anything, but only 1 item present
 List() \\empty list
 
 ```
+Other list functions
+
+function|use
+---|---
+xs.length|gets the length of list
+xs.last|gets the last element of list, exception if list is empty
+xs.init|gets the list except the last element
+xs take n|a list containing first *n* elements of the list
+xs drop n|a list after dropping first n elements of the original list
+xs(n)|gets the *nth* element of the list

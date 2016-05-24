@@ -79,8 +79,12 @@ class SomeOtherClass extends IntSet {
   def partial(x:Int): Int = x*2
 }
 ```
-### singleton class
-to create a singleton class, all that has to be done is to make it an object instead of class
+### singleton object
+- instead of `class` use `object` 
+- to create a singleton object, all that has to be done is to make it an object instead of class
+- singleton objects are created when it is accessed first time
+- we cannot create another instance of singleton object using `new`
+
 
 ### imports in scala
 ```

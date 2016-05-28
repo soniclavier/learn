@@ -33,4 +33,17 @@ object higherorder {
   }                                               //> encode: [T](xs: List[T])List[(T, Int)]
 
 	encode(letters)                           //> res7: List[(String, Int)] = List((a,3), (b,1), (c,2), (a,1))
+	
+	
+	def mapFun[T,U](xs: List[T],f: T => U): List[U] = {
+		(xs foldRight List[U]())((x,y) => f(x) :: mapFun(xs.tail,f))
+	}                                         //> mapFun: [T, U](xs: List[T], f: T => U)List[U]
+	
+	mapFun(nums,(x:Int) => (x+1))             //> res8: List[Int] = List(3, -3, 6, 8, 2)
+	
+	def lengthFun[T](xs: List[T]): Int = {
+		(xs foldRight 0)((x,y) => y+1)
+	}                                         //> lengthFun: [T](xs: List[T])Int
+	
+	lengthFun(nums)                           //> res9: Int = 5
 }

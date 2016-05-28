@@ -23,5 +23,7 @@ object worksheet {
 
   removeAt[Int](1, List(1, 2, 3))                 //> res0: List[Int] = List(2, 3)
   flatten(List(1, 2, 3, List(4, 5)))              //> res1: List[Any] = List(1, 2, 3, 4, 5)
+	
 
+  
 }

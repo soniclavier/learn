@@ -1,6 +1,6 @@
 package week4
 
-import java.util.NoSuchElementException
+import java.util.NoSuchElementException/*
 import week3.Empty
 import week3.NonEmpty
 
@@ -48,7 +48,7 @@ object test {
 
 trait Room[-T,+U] {
   def open(x:T):U
-}
+}*/
 
 
 

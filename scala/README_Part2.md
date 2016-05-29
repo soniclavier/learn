@@ -42,3 +42,61 @@ xs.init|gets the list except the last element
 xs take n|a list containing first *n* elements of the list
 xs drop n|a list after dropping first n elements of the original list
 xs(n)|gets the *nth* element of the list
+
+<blockquote>May 28th, 2016</blockquote>
+### Pairs and Tuples
+A pair is a Tuple2 in scala. e.g., 
+```
+val pair = ("answer",42)
+```
+We can get the value from the pair like below (this is actually pattern matching)
+```
+val (label,value) = pair
+//here label will hold the first value and value will hold the second value
+
+val test = ("a",1,2.3)
+val (x,y,z) = test
+```
+
+#### Pairs from List *using splitAt*
+```
+val pair = xs splitAt index
+```
+
+
+#### Tuple class
+e.g., of a Tuple 2 class
+```
+case class Tuple2[T1,T2](_1: +T1, _2: +T2) {
+  overrdie def toString = "("+_1 +","+ _2 +")"
+}
+```
+Since scala names the tuple filed as _1,_2 etc that is why we are able to access the tuple values of scala using ._1, ._2 etc
+
+### Implicit parameters
+
+If a function defines a parameter as implicit, then while executing that function, if the parameter is avaiable in the scope, it will be accessible inside the function body without having to pass the parameter to the function call.
+```
+class ImplicitObj {
+		def execute() = {
+			println("obj executed")
+		}
+	}
+	
+	type MyObj =  ImplicitObj
+	implicit val x: MyObj = new ImplicitObj
+	
+	
+	def testImplicit()(implicit o: MyObj) = {
+		o.execute()
+	}
+  
+  testImplicit()
+```
+- Here function `testImplicit` takes an implicity parameter o of the type MyObj
+- `val x` is available as implicit while executing `testImplicit`
+
+if multiple implicit objects of the same type is present in the scope while executing testImplicit, scala will not which implicit object to take, hence will not compile saying `ambiguous implicit values`
+
+
+

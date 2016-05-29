@@ -262,3 +262,26 @@ gives a range of elements
 val r: Range = 1 until 5
 ```
 
+#### For-Expression 
+synax : `for (s) yield e`
+**s** is a sequence of generators and filters <br/>
+**generator** `p <- e` where p is a pattern and e is a collection or an expression who's value is a collection
+**filter** of the form `if f` where f a is boolean expression
+
+```
+case class City(name: String, area: Int)
+for (c <- cities if c.area > 1000) yield c.name
+```
+the above for expression is equivalent to 
+```
+cities filter (c => c.area > 1000) map (c => c.name)
+```
+The difference between for expression and for loop is that, for-loop produces [side effects](https://github.com/soniclavier/learn/tree/master/scala#side-effects)
+
+## Sets
+```
+val s = Set("a","b","c","a")  //> s  : scala.collection.immutable.Set[String] = Set(a, b, c)
+```
+most operations in sequence is avaiable in set also, such as **map, filter ** etc
+- sets are unordered
+- does not contain duplicates

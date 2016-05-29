@@ -331,3 +331,9 @@ l groupBy (_.length)                            //> Map(2 -> List(aa), 4 -> List
 val m1 = m withDefaultValue -1
 m1("c")  //-1
 ```
+
+#### Map from sequence
+```
+val seq = List((1,"a"),(2,"b"))           //> seq  : List[(Int, String)] = List((1,a), (2,b))
+seq.toMap       
+```

@@ -44,6 +44,68 @@ xs drop n|a list after dropping first n elements of the original list
 xs(n)|gets the *nth* element of the list
 
 <blockquote>May 28th, 2016</blockquote>
+
+**filter, filterNot, partition**
+```
+val nums = List(2, -4, 5, 7, 1)
+
+nums filter (x => x > 0)        //get all values > 0  =  List(2, 5, 7, 1)             
+nums filterNot (x => x > 0)     //get all values ! >0  = List(-4)             
+nums partition (x => x > 0)     //gets a pair/tuple with first value the reuslt of >0 and second of ~ >0 = (List(2),List(-4, 5, 7, 1))
+```
+
+**takeWhile, dropWhile, span**
+stops when a wrong condition in encountered
+```
+nums takeWhile (x => x > 0)  //values > 0 till first failed condition =  List(2)            
+nums dropWhile (x => x > 0)  //rest of the elements of takeWhile = List(-4, 5, 7, 1)                    
+nums span (x => x > 0)  //tuple of above two  = (List(2),List(-4, 5, 7, 1))
+```
+
+#### ReduceLeft
+syntax : `list reduceLeft op`
+e.g., `List(1,2,3,4) reduceLeft (_+_)`
+```
+      +
+     / \
+    +   4
+   / \
+  +   3
+ / \
+1   2
+```
+The given `op` is applied to each pair of element in the list, starting from the left. `reduceLeft` will not work in case the list is empty (will throw `java.lang.UnsupportedOperationException: empty.reduceLeft`). We can use `foldLeft` in such cases, which takes a initail value 
+
+#### FoldLeft
+syntax : `(list foldLeft accumulator)(op)`
+- Similar to reduceLeft, except that it takes an initial value/accumulator
+- The inital value is returned in case list is empty `(List() foldLeft -1)((x:Int,y:Int) => x+y)`
+e.g., `(List(1,2,3,4) foldLeft -1)(_+_)`
+
+```  
+          +
+         / \
+        +   4
+       / \ 
+      +   3
+     / \
+    +   2
+   / \
+ -1  1  
+```
+Another example with pair accumulator, to find average
+```
+val (sum,count) = (List(1,2,3,4) foldLeft (0.0,0))((x,y) => (x._1+y,x._2+1))
+                                                 //> sum  : Double = 10.0
+                                                 //| count  : Int = 4
+sum/count 					 //> res13: Double = 2.5
+```
+The `op` passed to foldLeft(acc) should have the first parameter of same type as the acc (in the above example Tuple(Double,Int).<br/>
+In general, the foldLeft signature is as below
+```
+def foldLeft[U](acc: U)(op: (U,T) => U): U = ???
+```
+The accumulator type is `U` and the function `op` should take a function that takes two parameters of the types `U` and `T` and returns a reuslt of type `U`. Also the function foldLeft returns a type `U`
 ### Pairs and Tuples
 A pair is a Tuple2 in scala. e.g., 
 ```

@@ -1,18 +1,19 @@
 package week6
 
 object polynomials {
-  class Poly(val terms: Map[Int,Double]) {
+  class Poly(terms0: Map[Int,Double]) {
+  	def this(binding: (Int,Double)*) = this(binding.toMap)
+  	val terms = terms0 withDefaultValue 0.0
   	def + (other: Poly) = {
-  		new Poly(terms ++ (other.terms map adjust))
-  		}
-  		def adjust(term: (Int,Double)): (Int,Double) = {
-  		val (exp,coeff) = term
-  		terms get exp match {
-  		 case Some(coeff1) => exp -> (coeff + coeff1)
-  		 case None => exp -> coeff
-  		}
-  	
+  		new Poly((other.terms foldLeft terms)(addTerm))
   	}
+  	
+  	def addTerm(terms: Map[Int,Double], term: (Int,Double)) = {
+  		val (exp,coeff) = term
+  		val coeff1 = terms(exp)
+  		terms + (exp -> (coeff + coeff1))
+  	}
+  	
   	
   	override def toString = terms map ( kv => kv._2+"x^"+kv._1) mkString " + "
   }

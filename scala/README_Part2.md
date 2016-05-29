@@ -285,3 +285,49 @@ val s = Set("a","b","c","a")  //> s  : scala.collection.immutable.Set[String] = 
 most operations in sequence is avaiable in set also, such as **map, filter ** etc
 - sets are unordered
 - does not contain duplicates
+
+
+## Map
+- of the type `Map[Key,Value]`
+- Associative map
+- Associates key of the type `Key` to a value of the type `Value`
+
+e.g.,
+```
+val m = Map("a" -> 97, "b" -> 98)
+```
+
+#### Maps are Functions
+```
+m("a")
+m("c") //throws exception
+m get "c" // Option[Int] = None
+m get "a" // Option[Int] = Some(97)
+```
+**Option** <br/>
+- Option is a `trait Option[+A]`, 
+- there is `case class Some[+A] extends Option[A]`
+- there is an `object None extends Option[Nothing]` 
+
+
+#### Sorted and GroupBy
+
+Sort
+```
+val l = List("c","b","aa","a","cccc")           //> l  : List[String] = List(c, b, aa, a, cccc)
+l.sorted                                        //> res4: List[String] = List(a, aa, b, c, cccc)
+l.sortWith(_.length < _.length)                 //> res5: List[String] = List(c, b, a, aa, cccc)
+l.sortWith((x,y) =>x.length < y.length)         //> res6: List[String] = List(c, b, a, aa, cccc)
+```
+
+Group
+```
+l groupBy (x => x.head)                         //> Map(b -> List(b), a -> List(aa, a), c -> List(c, cccc))
+l groupBy (_.length)                            //> Map(2 -> List(aa), 4 -> List(cccc), 1 -> List(c, b, a))
+```
+
+### Map as total function (with default values)
+```
+val m1 = m withDefaultValue -1
+m1("c")  //-1
+```

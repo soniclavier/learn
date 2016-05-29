@@ -167,6 +167,13 @@ def funName(arg1: ArgType,arg2: Arg2Type,..): ReturnType = {
 
 <blockquote>ReturnType must be specified for recursive call, This is because scala checks the last line in fun body to identify the return type, and this will end up in infinite loop incase of recursive call</blockquote>
 
+#### Functions with repeated parameters
+```
+def test(bs : Int*) {
+  bs foreach println
+}                                               
+test(1,2,3) 
+```
 # Advanced 
 
 ### Type Alias

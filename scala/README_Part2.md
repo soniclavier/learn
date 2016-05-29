@@ -106,6 +106,65 @@ In general, the foldLeft signature is as below
 def foldLeft[U](acc: U)(op: (U,T) => U): U = ???
 ```
 The accumulator type is `U` and the function `op` should take a function that takes two parameters of the types `U` and `T` and returns a reuslt of type `U`. Also the function foldLeft returns a type `U`
+
+#### ReduceRight
+syntax : `list reduceRight op`<br/>
+e.g., `List(1,2,3,4) reduceRight (_+_)`<br/>
+*If the `op` is both commutative and associative, reduceLeft and reduceRight will return the same result, as in the above example*
+```
+      +
+     / \
+    1   +
+       / \
+      2   +
+         / \
+        3   4
+```
+
+#### FoldRight
+syntax : `(list foldRight acc)(op)`<br/>
+e.g., `(List(1,2,3,4) foldRight 0)(_+_)`
+```
+      +
+     / \
+    1   +
+       / \
+      2   +
+         / \
+        3   +
+           / \
+          4   0
+```
+An example where we cannot interchange foldLeft and foldRight, `concat`
+```
+def concat[T](xs: List[T],ys: List[T]): List[T] = {
+  (xs foldRight ys)(_ :: _)
+}
+
+foldRight
+    ::
+   /  \
+  x1  ::
+     /  \
+   x2   ::
+       /  \
+      xn   ::
+          /  \
+        y1   ::
+            /  \
+           y2  ::
+              /  \
+             yn   Nil
+```
+We cannot do foldLeft here because
+```
+     ::
+    /  \
+   ::
+  /  \
+x1   x2
+```
+we cannot do concat, `::` on x2 since x2 is a Int, not List. (note `::` is **right associative**)
 ### Pairs and Tuples
 A pair is a Tuple2 in scala. e.g., 
 ```

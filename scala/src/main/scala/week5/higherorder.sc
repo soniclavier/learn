@@ -46,4 +46,17 @@ object higherorder {
 	}                                         //> lengthFun: [T](xs: List[T])Int
 	
 	lengthFun(nums)                           //> res9: Int = 5
+	
+	List(1,2,3,4) reduceLeft (_+_)            //> res10: Int = 10
+	(List(1,2,3,4) foldLeft -1)(_+_)          //> res11: Int = 9
+	(List() foldLeft -1)((x:Int,y:Int) => x+y)//> res12: Int = -1
+	
+	val (sum,count) = (List(1,2,3,4) foldLeft (0.0,0))((x,y) => (x._1+y,x._2+1))
+                                                  //> sum  : Double = 10.0
+                                                  //| count  : Int = 4
+	sum/count                                 //> res13: Double = 2.5
+	
+	List(1,2,3,4) reduceRight (_+_)           //> res14: Int = 10
+	(List(1,2,3,4) foldRight 0)(_+_)          //> res15: Int = 10
+  
 }

@@ -43,4 +43,21 @@ object msort {
     a2 <- b2.authors
     if a1 == a2
   } yield a1
+  
+  class ImplicitObj {
+		def execute() = {
+			println("obj executed")
+		}
+	}
+	
+	type MyObj =  ImplicitObj
+	implicit val x: MyObj = new ImplicitObj
+	
+	
+	
+	def testImplicit()(implicit o: MyObj) = {
+		o.execute()
+	}
+  
+  testImplicit()
 }

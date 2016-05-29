@@ -1,7 +1,7 @@
 <blockquote>April 20th, 2016</blockquote>
 # Collections
 
-### Lists
+## Lists
 ```
 val fruits = List("apples","oranges")
 val nums: List[Int] = List(1,2,3)
@@ -219,5 +219,46 @@ class ImplicitObj {
 
 if multiple implicit objects of the same type is present in the scope while executing testImplicit, scala will not which implicit object to take, hence will not compile saying `ambiguous implicit values`
 
+<blockquote>May 29th, 2016</blockquote>
 
+## Vectors
+Represented as shallow trees
+```
+val nums = Vector(1,2,-10,4)
+```
+- vector of length < 32 elements is array **(level 1)**
+- if > 32, there will be a vector of 32 pointers pointing 32\*32 elements **(level 2)**
+- if > 2^10 tree grows one more level and so on. up to 2^15 **(level 3)**
+- 2^20 elements in **(level 4)**
+- 2^30 elements in **(level 5)**
+
+depth of vector log_32(N)
+
+<blockquote>Use lists instead of vector if head and tail of the lists are accessed more often.(lists give constant time access to head and tail of a list).</blockquote>
+
+#### Operations on Vectors
+- All operations that are avaiable on list are also applicable to vector - such as **map, fold, head, tail** etc
+- Cons operator on Vector is different from list
+	- `x +: xs`  *Creates a new vector with leading element x and followed by all elements of xs*
+	- `xs :+ x`  *Creates a new vector with all elements of xs followed by x*
+
+## Seq
+Super class of List and Vector
+- Array and String are also sequence like strucutre which has operations such as **map, filter, fold, head, tail, takeWhile etc**
+
+```
+val l = Array(1,2,3,4)
+l map (x => x+1)
+
+val s = "Hello"
+s filter (c => c.isUpper)
+```
+![Scala Hierarchy of Collections](https://vishnuviswanath.com/img/scala_coll_hierarchy.png)
+
+
+### Range
+gives a range of elements
+```
+val r: Range = 1 until 5
+```
 

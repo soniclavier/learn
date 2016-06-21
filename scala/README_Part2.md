@@ -337,3 +337,20 @@ m1("c")  //-1
 val seq = List((1,"a"),(2,"b"))           //> seq  : List[(Int, String)] = List((1,a), (2,b))
 seq.toMap       
 ```
+
+<blockquote>June 21st, 2016</blockquote>
+
+## Misc
+#### sbt % vs %%
+The difference between % and %% is that, 
+- `%%` adds the scala version to the dependency
+- `%` does not add
+
+e.g.,
+```
+"org.scala-tools" % "scala-stm_2.9.1" % "0.3" // you have to specify the scala version
+
+scalaVersion in ThisBuild := "2.11.7"
+"org.scala-tools" %% "scala-stm" % "0.3" //scala version will inferred from project version,
+
+```

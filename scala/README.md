@@ -391,6 +391,7 @@ trait Room[-T,+U] {
 }
 ```
 
+A good answer on SO about covariance and contravariance [link](http://stackoverflow.com/questions/6135663/problem-with-bounded-type-parameterised-case-class-and-default-args-in-scala)
 
 ### Type Test and Type Cast
 *(use is discouraged)*<br>

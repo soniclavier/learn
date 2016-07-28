@@ -1,0 +1,44 @@
+<html><body bgcolor="#000000" text="#ffffff"><table><tr><td colspan="2"><h3>Problem Statement</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td>There are n cities, numbered from 0 to n-1.
+It is possible to travel directly between any two cities.
+Different pairs of cities may require different travel times.
+You are given the travel times as a String[] <b>dist</b> with n elements, each consisting of n digits.
+The digit <b>dist</b>[i][j] represents the time needed to travel between cities i and j in either direction.<br></br>
+<br></br>
+You are also given an int <b>k</b>.
+You have <b>k</b> magic potions.
+The potion makes you twice as fast as you normally are.
+Each time you travel (directly) from some city to some other city, you may take one of the potions.
+If you do, that travel will only take half of what it normally would.
+You are not allowed to take more than one potion at the same time.
+You are not required to drink all potions you have.
+<br></br>
+<br></br>
+Compute and return the smallest amount of time in which you can travel from city 0 to city 1.</td></tr><tr><td colspan="2"><h3>Definition</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Class:</td><td>ShortestPathWithMagic</td></tr><tr><td>Method:</td><td>getTime</td></tr><tr><td>Parameters:</td><td>String[], int</td></tr><tr><td>Returns:</td><td>double</td></tr><tr><td>Method signature:</td><td>double getTime(String[] dist, int k)</td></tr><tr><td colspan="2">(be sure your method is public)</td></tr></table></td></tr><tr><td colspan="2"><h3>Limits</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Time limit (s):</td><td>2.000</td></tr><tr><td>Memory limit (MB):</td><td>256</td></tr></table></td></tr><tr><td colspan="2"><h3>Notes</h3></td></tr><tr><td align="center" valign="top">-</td><td>The travel times given in <b>dist</b> don't have to satisfy the triangle inequality.</td></tr><tr><td align="center" valign="top">-</td><td>Your return value must have a relative or absolute error less than 1e-9</td></tr><tr><td colspan="2"><h3>Constraints</h3></td></tr><tr><td align="center" valign="top">-</td><td><b>dist</b> will contain between 2 and 50 elements, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td>Each string in <b>dist</b> will contain exactly |<b>dist</b>| characters.</td></tr><tr><td align="center" valign="top">-</td><td>Each character in <b>dist</b> will be between '0' and '9', inclusive.</td></tr><tr><td align="center" valign="top">-</td><td>For any valid i and j: <b>dist</b>[i][j] = <b>dist</b>[j][i].</td></tr><tr><td align="center" valign="top">-</td><td>For any valid i: <b>dist</b>[i][i] = 0.</td></tr><tr><td align="center" valign="top">-</td><td><b>k</b> will be between 0 and 50, inclusive.</td></tr><tr><td colspan="2"><h3>Examples</h3></td></tr><tr><td align="center" nowrap="true">0)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;094&quot;,
+ &quot;904&quot;,
+ &quot;440&quot;}</pre></td></tr><tr><td><pre>1</pre></td></tr></table></td></tr><tr><td><pre>Returns: 4.5</pre></td></tr><tr><td><table><tr><td colspan="2">According to <b>dist</b>, you need:
+<ul>
+<li>9 units of time to travel between cities 0 and 1</li>
+<li>4 units of time to travel between cities 0 and 2</li>
+<li>4 units of time to travel between cities 1 and 2</li>
+</ul>
+
+You have a single magic potion.
+The optimal solution is to drink the potion and to travel directly from city 0 to city 1.
+This trip will take 9/2 = 4.5 units of time.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">1)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;094&quot;,
+ &quot;904&quot;,
+ &quot;440&quot;}</pre></td></tr><tr><td><pre>2</pre></td></tr></table></td></tr><tr><td><pre>Returns: 4.0</pre></td></tr><tr><td><table><tr><td colspan="2">The normal travel times are the same as in Example 0, but now you have two magic potions.
+This changes the optimal solution.
+Now it is better to travel from 0 to 2 and then from 2 to 1.
+For each segment of your trip you will drink one of the potions.
+Thus, each segment will only take 4/2 = 2 units of time.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">2)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;094&quot;,
+ &quot;904&quot;,
+ &quot;440&quot;}</pre></td></tr><tr><td><pre>50</pre></td></tr></table></td></tr><tr><td><pre>Returns: 4.0</pre></td></tr><tr><td><table><tr><td colspan="2">You are not allowed to use more than one potion at the same time.
+The optimal solution remains the same as in Example 1, only now you will still have 48 magic potions when you reach city 1.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">3)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;094&quot;,
+ &quot;904&quot;,
+ &quot;440&quot;}</pre></td></tr><tr><td><pre>0</pre></td></tr></table></td></tr><tr><td><pre>Returns: 8.0</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">4)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;076237&quot;,
+ &quot;708937&quot;,
+ &quot;680641&quot;,
+ &quot;296059&quot;,
+ &quot;334508&quot;,
+ &quot;771980&quot;}</pre></td></tr><tr><td><pre>1</pre></td></tr></table></td></tr><tr><td><pre>Returns: 3.5</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">5)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;00&quot;,
+ &quot;00&quot;}</pre></td></tr><tr><td><pre>50</pre></td></tr></table></td></tr><tr><td><pre>Returns: 0.0</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr></table><p>This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2003, TopCoder, Inc.  All rights reserved.  </p></body></html>

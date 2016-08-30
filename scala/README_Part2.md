@@ -278,6 +278,18 @@ cities filter (c => c.area > 1000) map (c => c.name)
 ```
 The difference between for expression and for loop is that, for-loop produces [side effects](https://github.com/soniclavier/learn/tree/master/scala#side-effects)
 
+**Pattern on the LHS**<br/>
+we can also have patterns on the LHS<br/>
+e.g.,
+```
+var x = List(1,2,3)
+for {
+	1 <- x
+    } yield "one"
+    
+res2: List[String] = List(one)
+```
+
 ## Sets
 ```
 val s = Set("a","b","c","a")  //> s  : scala.collection.immutable.Set[String] = Set(a, b, c)

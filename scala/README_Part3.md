@@ -12,4 +12,15 @@ Here there is a **?** for the tail of the Stream, indicating it is not evaluated
 ```
 0 #:: xs   //> res0: scala.collection.immutable.Stream[Int] = Stream(0, ?)
 ```
-the cons method in Stream takes to parameters, head and tail. But the tail is a Name parameter(**called by name**, instead of value). Hence tail is not evaluted.
+the cons method in Stream takes to parameters, head and tail. But the tail is a Name parameter(**called by name**, instead of value). Hence tail is not evaluted. Also, the tail is a `lazy` evaluated.
+
+
+### Lazy evaluation
+**val** : Evaluated when executed, evaluated only once
+**lazy** : Evaluated only once and only when executed
+**def** : Evaluated only when executed, but evaluted on each execution. (def defines a method)
+[link1](http://stackoverflow.com/questions/4437373/use-of-def-val-and-var-in-scala/4440614#4440614) [link2](http://stackoverflow.com/questions/9449474/def-vs-val-vs-lazy-val-evaluation-in-scala)
+[link3](http://stackoverflow.com/questions/11386559/val-mutable-versus-var-immutable-in-scala)
+
+### Infinite Stream
+Since tail of a Stream is evaluated lazily, we can have a function that creates an infinite Stream.<br/>

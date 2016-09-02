@@ -12,3 +12,4 @@ Here there is a **?** for the tail of the Stream, indicating it is not evaluated
 ```
 0 #:: xs   //> res0: scala.collection.immutable.Stream[Int] = Stream(0, ?)
 ```
+the cons method in Stream takes to parameters, head and tail. But the tail is a Name parameter(**called by name**, instead of value). Hence tail is not evaluted.

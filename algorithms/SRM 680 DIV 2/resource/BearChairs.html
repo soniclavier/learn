@@ -1,0 +1,33 @@
+<html><body bgcolor="#000000" text="#ffffff"><table><tr><td colspan="2"><h3>Problem Statement</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><p>I guess you have never seen a bear eating at a table.
+The reason is simple: bears don't use tables.
+However, they may sometimes decide to sit on a chair while eating.</p>
+<br></br>
+<p>Bear Limak is a waiter in a huge restaurant for bears.
+The restaurant has infinitely many chairs.
+The chairs are arranged in a single long row.
+In order, they are numbered using all positive integers: 1, 2, 3, ...
+Chair number 1 is closest to the entrance to the restaurant.</p>
+<br></br>
+<p>A bear takes a lot of space while eating, and all bears value their personal space.
+Limak knows that there is a universal constant <b>d</b> with the following meaning:
+Whenever two bears sit on chairs, their chair numbers must differ by <b>d</b> or more.
+For example, if <b>d</b>=10, you can have two bears in chairs 47 and 57, but you cannot have bears in chairs 47 and 56.</p>
+<br></br>
+<p>The restaurant just opened for the day and all chairs are empty.
+During the day exactly N guests arrived, one at a time.
+Whenever a guest arrived, Limak assigned them a chair.
+Each guest stayed in the restaurant in their assigned chair until the end of the day.</p>
+<br></br>
+<p>Generally, guests don't like to be seated close to the entrance because of the noise from the street.
+You are given a int[] <b>atLeast</b> with N elements: one for each guest, in order.
+For each i from 0 to N-1, guest i came with a request: "My chair number must be greater than or equal to <b>atLeast</b>[i]."</p>
+<br></br>
+<p>When seating a guest, Limak always assigns them the smallest available chair number.
+(That is, the smallest chair number that matches the guest's request and is at least <b>d</b> away from each of the bears who are already in the restaurant.)
+Return a int[] with N elements: for each guest, in the order in which they arrived, the number of the chair where they will be seated.</p></td></tr><tr><td colspan="2"><h3>Definition</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Class:</td><td>BearChairs</td></tr><tr><td>Method:</td><td>findPositions</td></tr><tr><td>Parameters:</td><td>int[], int</td></tr><tr><td>Returns:</td><td>int[]</td></tr><tr><td>Method signature:</td><td>int[] findPositions(int[] atLeast, int d)</td></tr><tr><td colspan="2">(be sure your method is public)</td></tr></table></td></tr><tr><td colspan="2"><h3>Limits</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Time limit (s):</td><td>2.000</td></tr><tr><td>Memory limit (MB):</td><td>256</td></tr><tr><td>Stack limit (MB):</td><td>256</td></tr></table></td></tr><tr><td colspan="2"><h3>Constraints</h3></td></tr><tr><td align="center" valign="top">-</td><td>N will be between 1 and 1000, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td><b>atLeast</b> will have exactly N elements.</td></tr><tr><td align="center" valign="top">-</td><td>Each element in <b>atLeast</b> will be between 1 and 10^6, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td><b>d</b> will be between 1 and 10^6, inclusive.</td></tr><tr><td colspan="2"><h3>Examples</h3></td></tr><tr><td align="center" nowrap="true">0)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{1,21,11,7}</pre></td></tr><tr><td><pre>10</pre></td></tr></table></td></tr><tr><td><pre>Returns: {1, 21, 11, 31 }</pre></td></tr><tr><td><table><tr><td colspan="2">Here is what will happen:
+<ol>
+<li>Guest 0 wants a chair with a number greater or equal to 1. He gets the chair 1.</li>
+<li>Guest 1 wants a chair with a number greater or equal to 21. She gets the chair 21.</li>
+<li>Guest 2 wants a chair with a number greater or equal to 11. He gets the chair 11. Note that this chair is still far enough from each of the two bears who are already sitting in the restaurant.</li>
+<li>Guest 3 wants a chair with a number greater or equal to 7. The smallest available chair is chair number 31. All free chairs with smaller numbers are too close to some of the previous guests.</li>
+</ol></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">1)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{1,21,11,7}</pre></td></tr><tr><td><pre>11</pre></td></tr></table></td></tr><tr><td><pre>Returns: {1, 21, 32, 43 }</pre></td></tr><tr><td><table><tr><td colspan="2">The guests have the same requests as in Example 0 but <b>d</b> is larger. Thus, guest 2 doesn't fit between guests 0 and 1 and must be seated in a chair with a larger number.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">2)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{1000000,1000000,1000000,1}</pre></td></tr><tr><td><pre>1000000</pre></td></tr></table></td></tr><tr><td><pre>Returns: {1000000, 2000000, 3000000, 4000000 }</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">3)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{1000000,1000000,1000000,1}</pre></td></tr><tr><td><pre>999999</pre></td></tr></table></td></tr><tr><td><pre>Returns: {1000000, 1999999, 2999998, 1 }</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr></table><p>This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2003, TopCoder, Inc.  All rights reserved.  </p></body></html>

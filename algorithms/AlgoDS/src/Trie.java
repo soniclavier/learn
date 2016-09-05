@@ -10,8 +10,8 @@ public class Trie {
         TrieNode tn = new TrieNode();
         tn.insert("abc");
         tn.insert("abdfe");
-        System.out.println(tn.search("abdfe",false));
-        System.out.println(tn.search("abde",true));
+        System.out.println(tn.search("abdfe"));
+        System.out.println(tn.search("abc"));
     }
 }
 
@@ -40,16 +40,13 @@ class TrieNode {
         }
     }
 
-    public boolean search(String str, boolean prefix) {
-        if (str.trim().equals("")) {
-            if (prefix)
-                return true;
-            else
-                return end;
-        }
+    public boolean search(String str) {
+        int len = str.length();
         char ch = str.charAt(0);
         if (elems.containsKey(ch)) {
-            return elems.get(ch).search(str.substring(1),prefix);
+            if (len == 1)
+                return true;
+            return elems.get(ch).search(str.substring(1));
         } else
             return false;
     }

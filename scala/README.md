@@ -132,7 +132,7 @@ object myObject {
 }
 object myObject2 {
 }
-case class MyCaseClass(name:String)
+case class MyCaseClass(name:String, age: Int)
 ```
 MyClass can be instantiated as below
 ```
@@ -141,18 +141,26 @@ var x = new MyClass("something") // we cannot call var x = MyClass("something"),
 myObject can be instantiated as below
 ```
 var x = myObject("something") //we are able to pass the parameter because of the apply method which takes string parameter
-//we could also do
-var x = myObject
 //myObject2 can be instantiated as below
 var x = myObject2
 ```
-case class, MyCaseClass can be instantiated as follows
+**case class**, MyCaseClass can be instantiated as follows
 ```
-var x = MyCaseClass("something")
+var x = MyCaseClass("something", 10)
 //this is because, when a case class is created, scala implicitly creates a companion object for the case class with apply method, like.
 object MyCaseClass {
- def apply(name: String) = new MyCaseClss(name)
+ def apply(name: String, age: Int) = new MyCaseClss(name, age)
 }
+```
+we can make a copy of the case class by calling **copy**
+```
+val y = x.copy(age=11) //created a new case class from x, by altering only the age field
+```
+A case class implements equals method by default, hence can be **compared** by using ==
+```
+x == y //will return false since we changed age 
+val z = y.copy(age=10)
+x == z //will return true
 ```
 
 ### Functions

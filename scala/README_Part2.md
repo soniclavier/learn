@@ -387,3 +387,4 @@ you will get error
 ```
 the function `test` is defined after the call and there is a value definition of `x` in between. Removing/Moving `val x` definition will solve the problem.
 
+[Part 3](README_Part3.md)

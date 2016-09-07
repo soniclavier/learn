@@ -5,13 +5,13 @@
 <blockquote>March 5th, 2016</blockquote>
 ### constructor
 Constructor can be created by def this. e.g., below code calls a two arg constructor from single arg<br/>
-```
+```scala
 class Rational(x:Int,y:Int) {
   def this(x:Int) = this(x,1)
 ```
 
 ### Loops
-```
+```scala
 for(x <- 0 to 10) println(x) //prints 0 to 10
 for(x <- 0 until 10) println(x) //prints 0 to 9
 
@@ -26,7 +26,7 @@ for( l <- ls if l == 1) println(l) //prints 1,1
 
 can be used to specify a condition/requirement
 e.g., 
-```
+```scala
 class Rational(x:Int,y:Int) {
   require(y!=0,"denominator must be non-zero")
 }
@@ -41,7 +41,7 @@ Assert throws assertion error, require throws illegal argument exception
 
 suppose there is function add in class Rational that takes another rational number, then instead of writing
 r.add(s)  where r and s are objects of class Rational, we can write
-```
+```scala
 r add s
 ```
 
@@ -49,7 +49,7 @@ r add s
 a function can have symbols also as a function name<br/>
 e.g.,<br/>
 the add method in Rational can be replaced with +
-```
+```scala
 def +(that: Rational) =
 		new Rational(numer*that.denom + that.numer*denom,
 		denom*that.denom)
@@ -59,7 +59,7 @@ r + s
 ```
 *prefix opeartor*
 to simulate prefix operator such as negative (-) we can add unary_ before the function definion like below
-```
+```scala
 def unary_- = new Rational(-1*numer,denom)
 
 //and later use this as
@@ -70,7 +70,7 @@ def unary_- = new Rational(-1*numer,denom)
 similar to java, in scala also use the keyword abstract.
 and the methods can be abstract/undefined. i.e., it can have without the =
 e.g.,
-```
+```scala
 abstract class MyAbsClass {
 	def partial(x:Int): Int
 }
@@ -87,7 +87,7 @@ class SomeOtherClass extends IntSet {
 
 
 ### imports in scala
-```
+```scala
 import somepackage.SomeClass
 import somepackage._
 import somepackage.{ClassA,ClassB}
@@ -97,7 +97,7 @@ import somepackage.SomeObject.something
 ### traits
 traits are like interfaces, a class can implement many traits. In scala it is done using the keyword with.
 e.g.,
-```
+```scala
 trait Shape {
 	def height: Int
 	def width: Int
@@ -115,7 +115,7 @@ throw Exc
 
 ### pacakges
 same as in java. e.g., 
-```
+```scala
 package com.vishnuviswanath
 
 object MyObject {
@@ -124,7 +124,7 @@ object MyObject {
 
 ### Objects, Case class vs Class
 Consdier below examples of class, objects and case classes
-```
+```scala
 class MyClass(name: String)  {
 }
 object myObject {
@@ -135,17 +135,17 @@ object myObject2 {
 case class MyCaseClass(name:String, age: Int)
 ```
 MyClass can be instantiated as below
-```
+```scala
 var x = new MyClass("something") // we cannot call var x = MyClass("something"), need the new keyword
 ```
 myObject can be instantiated as below
-```
+```scala
 var x = myObject("something") //we are able to pass the parameter because of the apply method which takes string parameter
 //myObject2 can be instantiated as below
 var x = myObject2
 ```
 **case class**, MyCaseClass can be instantiated as follows
-```
+```scala
 var x = MyCaseClass("something", 10)
 //this is because, when a case class is created, scala implicitly creates a companion object for the case class with apply method, like.
 object MyCaseClass {
@@ -153,18 +153,18 @@ object MyCaseClass {
 }
 ```
 we can make a copy of the case class by calling **copy**
-```
+```scala
 val y = x.copy(age=11) //created a new case class from x, by altering only the age field
 ```
 A case class implements equals method by default, hence can be **compared** by using ==
-```
+```scala
 x == y //will return false since we changed age 
 val z = y.copy(age=10)
 x == z //will return true
 ```
 
 ### Functions
-```
+```scala
 def funName(arg1: ArgType,arg2: Arg2Type,..): ReturnType = {
   function body
   somevar (this will be returned)
@@ -176,7 +176,7 @@ def funName(arg1: ArgType,arg2: Arg2Type,..): ReturnType = {
 <blockquote>ReturnType must be specified for recursive call, This is because scala checks the last line in fun body to identify the return type, and this will end up in infinite loop incase of recursive call</blockquote>
 
 #### Functions with repeated parameters
-```
+```scala
 def test(bs : Int*) {
   bs foreach println
 }                                               
@@ -189,7 +189,7 @@ from [here](https://www.safaribooksonline.com/library/view/learning-scala/978144
 
 Used for giving aliases. <br/>
 It can be applied on classes.For e.g., Int,Tuple etc
-```
+```scala
 type Whole = Int    //int is an abstract class
 val x: Whole = 5
 
@@ -202,7 +202,7 @@ val things = new T3(1,'a',true)
 val things = new T3("vishnu",1.0,'a')
 ```
 We can also have abstract Type Alias, e.g., in a Trait. In this case, the implementing class will have to define what actually those aliases are before using.
-```
+```scala
 class User(val name: String)
 
 trait Factory { 
@@ -218,7 +218,7 @@ trait UserFactory extends Factory {
 
 ```
 Type alias can also defined on functions
-```
+```scala
 type Set = Int => Boolean   // a function that takes Int as input and returns Boolean
 def contains(s:Set,elem:Int): Boolean = s(elem)
 ```
@@ -226,19 +226,19 @@ def contains(s:Set,elem:Int): Boolean = s(elem)
 ### ??? (Not yet implemented)
 <blockquote>This is my favorite! :)</blockquote>
 In scala, we can use ??? to denote that the function/some part of the code is not yet implemented. e.g.,
-```
+```scala
 def myFun(key: Int): Int = ??? //here only signature is defined, implementation is not provided
 ```
 ??? is not like an abstract method, but is like a placeholder. Later when we are know/decide how the function body has to be implemented, we can replace the ??? with the implementation.
 
-```
+```scala
 if(???) ???
 else if(???) ???
 else sumotherfunction(???)
 ```
 ### Higher-Order Functions
 functions that take functions as parameters or return functions
-```
+```scala
 def sum(f:Int=>Int, a:Int,b:Int): Int = 
 	if (a>b) 0
 	else f(a) + sum(f,a+1,b)
@@ -256,15 +256,14 @@ is a function that takes argument of type A and returns result of type B
 ### Anonymous functions
 *literals for functions (no names, like a string "abc")*
 e.g.,
-```
+```scala
 (x:Int,y:Int) => x*y
 (x,y => x*y) //scala will interpret the types
 ```
 
 ### Currying
 
-```
-
+```scala
 def sum(f:Int=>Int): (Int,Int)=>Int = {
   def sumF(a:Int,b:Int): Int = {
     if (a>b) 0
@@ -276,7 +275,7 @@ def sum(f:Int=>Int): (Int,Int)=>Int = {
 ***note that there is no need for writing return keyoword in scala***
 
 now we can define the function sumCubes as
-```
+```scala
 def sumCubes = sum(x=>x*x*x)
 //this can be called as
 sumCubes(1,10)
@@ -286,7 +285,7 @@ so we can define another function
 `def sumInt = sum(x=>x)` and so on.
 <br/><br/>
 we can also define more functions like sumInt and sumCube. But there is a way by which we can avoid that. e.g., we can call
-```
+```scala
 sum(cube)(1,10) 
 //this is equivalent to (sum(cube))(1,10)
 ```
@@ -300,7 +299,7 @@ It is subtype of all other type.
 ### Null
 
 Subtype of all reference type
-```
+```scala
 val x = null //set x as Null
 val y:String = x //assign x to y, (works because y is of type reference)
 val z:Int = null //try to assign null to z, this will not work because z is not of type refernce in the scala class hierarchy. ( Int is a value type)
@@ -310,7 +309,7 @@ val z:Int = null //try to assign null to z, this will not work because z is not 
 
 ### Value Parameters
 
-```
+```scala
 class Student(val name:String, val id:Int)
 
 #is same as
@@ -324,13 +323,13 @@ class Student(_name:String,_id:Int) {
 ### Type Parameters
 
 e.g.,
-```
+```scala
 trait MyTrain[T]
 class Student[T](val name:String, val id: T)
 ```
 
 A type parameter can also be used for functions.<br/>e.g.,
-```
+```scala
 def myfun[T](input: T) = {
 }
 
@@ -348,7 +347,7 @@ while calling such function, we don't need explicity specify the type, scala can
 ### Functions as Objects
 
 Functions are objects in scala. Functions are objects with apply methods.
-```
+```scala
 //function type A=>B
 package scala
 trait Function1[A,B] {
@@ -368,18 +367,18 @@ new Function1[Int,Int] {
 ### Type Bound
 
 #### Upper Bound
-```
+```scala
 //here the type S is a subtype ot IntSet
 def assertAllPos[S<:IntSet](r:S): S 
 ```
 #### LowerBounds
-```
+```scala
 //here the type S is a supertype of NonEmpty
 //or NonEmpty is subtype of S 
 def assertAllPos[S>:NonEmpty](r:S): S 
 ```
 #### LowerAndUpper Bound
-```
+```scala
 def assertAllPos[S>:NonEmpty <: IntSet](r:S): S 
 ```
 <br/>
@@ -392,7 +391,7 @@ invariant: none of the above holds <br/>
 *In scala, arrays are not covariant but lists are covaraint*
 <br/><br/>
 In scala functions arugments are contravariant, and covariant in result types
-```
+```scala
 //covariance is represented by + sign and contravariant by -. eg.,
 trait Room[-T,+U] {
   def open(x:T):U
@@ -410,12 +409,12 @@ x.asInstanceOf[T] = (T) x  (i.e., cast x to type T)
 
 ### Case classes
 
-```
+```scala
 trait Expr
 case class Number(n:Int) extends Expr
 ```
 case classes implicitly defines companion objects with apply methods
-```
+```scala
 object Number  {
 	def apply(n:Int) = new Number(n)
 }
@@ -423,14 +422,14 @@ object Number  {
 
 ### Pattern Matching
 Compared to java, Scala can have switch cases to match whole *class hierarchy*
-```
+```scala
 def eval(e:Expr): Int = e match {
 	case Number(e) => n
 	case Sum(e1,e2) => eval(e1) + eval(e2)
 }
 ```
 Pattern match syntax
-```
+```scala
 e match {
  case pattern => expr,
  .
@@ -460,14 +459,14 @@ A function that does not have side effect, just computes the result and returns 
 #### Syntax
 Call by name and value have different syntaxes<br/>
 **Call-by-value (more common)**
-```
+```scala
 def addCallByValue(x: Int) = { 
   println("in add, x = "+x)
   println("in add again, x = "+x)
 }
 ```
 **Call-by-name**
-```
+```scala
 def addCallByName(x: => Int) = { 
   println("in add, x = "+x)
   println("in add again, x = "+x)
@@ -476,14 +475,14 @@ def addCallByName(x: => Int) = {
 So the difference in syntax is that call-by-value is of the form **arg: Type** where as call-by-name is of the form **arg: => Type**
 #### Difference wrt to evaluation
 Consider the below function that returns an Integer ( this is an example of function with side-effect)
-```
+```scala
 def getMeSomeNum() = {
   println("in get me some number, doing something extra here") //this is the side-effect part
   1 //returning 1
 }
 ```
 Now let's call our two versions of add with the above getMeSomeNum function
-```
+```scala
 addCallByValue(getMeSomeNum())
 addCallByName(geMeSomeNum())
 
@@ -503,7 +502,7 @@ As we can see, in the call-by-name case the println inside getMeSomeNum exectued
 For call-by-name, the evaluation of the passed expression is carried out only at the last( therefore, the expression/function is passed along with all the subsequent function calls before being evaluated). 
 
 ### Value defenition
-```
+```scala
 val x = 2
 val y = square(x)
 ```

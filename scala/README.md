@@ -95,19 +95,66 @@ import somepackage.SomeObject.something
 ```
 
 ### traits
-traits are like interfaces, a class can implement many traits. In scala it is done using the keyword with.
+traits are like interfaces, a class can implement many traits.
+traits can contains fields and concrete methods which is differant from java, where we cannot have concrete methods
+
 e.g.,
 ```scala
 trait Shape {
 	def height: Int
-	def width: Int
-	def surface = height * weight
+	def weight = 20
 }
 
-class Square with Shape
 ```
-traits can contains fields and concrete methods which is differant from java, where we cannot have concrete methods
+we extend a trait if we want to implement only one trait
+```scala
+class MyShape extends Shape {
+     def height = 10
+}
+```
+if there are multiple interfaces to be implemented then we use **extend** for one of them(first one) and **with** for the rest
+```scala
+trait CanRotate
+trait Drawable
 
+class MyShape extends Shape with Drawable with CanRotate {
+     def height = 10
+}
+```
+we need to use override keyword if we are redefining an already defined method from the trait 
+```scala
+
+class MyShape extends Shape with Drawable with CanRotate {
+     def height = 10
+     override def weight = 25
+}
+```
+Side note : here height and weight are not variables, instead they are methods. these are methods that does not take any parameters and returns an int. these methods could also be written as
+```scala
+def height(): Int = {
+     return 25
+}
+```
+
+It is sligtly different case when there are vars and vals in trait. e.g.,
+```scala
+trait Test {
+     var x: Int
+     val y: Int
+     val z = 20
+     var a = 30
+}
+```
+to implement this trait,
+```scala
+class MyTest extends Test {
+     var x = 10           //does not need override keyword
+     override val y = 20  //needs override keyword
+     override val z = 15  //needs override keyword
+     //override var a = 80  - we cannot do this, compiler will complain that variable a cannot override a mutable variable
+}
+```
+ 
 **instantiate a trait??**
 ```scala
 trait Test {

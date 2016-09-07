@@ -2,7 +2,7 @@
 # Collections
 
 ## Lists
-```
+```scala
 val fruits = List("apples","oranges")
 val nums: List[Int] = List(1,2,3)
 val listList: List[List[Int]] = List(List(1,3,4),List(2,3,4))
@@ -18,14 +18,14 @@ lists are immutable in Scala
 
 #### Cons
 construction operation `::`
-```
+```scala
 fruits = "apples" :: ("oranges" :: Nil)
 ```
 operators ending in ":" reverse are considered right hand operand in infix rotation<br/>
 Here **::** is considered as a function of it's right hand side. either the list, or Nil in the above example
 
 #### List patterns
-```
+```scala
 1 :: 2 :: xs \\lists that start with 1 and then 2
 x :: Nil \\list of length 1 (x means it can be anything, but only 1 item present)
 List() \\empty list
@@ -46,7 +46,7 @@ xs(n)|gets the *nth* element of the list
 <blockquote>May 28th, 2016</blockquote>
 
 **filter, filterNot, partition**
-```
+```scala
 val nums = List(2, -4, 5, 7, 1)
 
 nums filter (x => x > 0)        //get all values > 0  =  List(2, 5, 7, 1)             
@@ -56,7 +56,7 @@ nums partition (x => x > 0)     //gets a pair/tuple with first value the reuslt 
 
 **takeWhile, dropWhile, span**
 stops when a wrong condition in encountered
-```
+```scala
 nums takeWhile (x => x > 0)  //values > 0 till first failed condition =  List(2)            
 nums dropWhile (x => x > 0)  //rest of the elements of takeWhile = List(-4, 5, 7, 1)                    
 nums span (x => x > 0)  //tuple of above two  = (List(2),List(-4, 5, 7, 1))
@@ -94,7 +94,7 @@ e.g., `(List(1,2,3,4) foldLeft -1)(_+_)`
  -1  1  
 ```
 Another example with pair accumulator, to find average
-```
+```scala
 val (sum,count) = (List(1,2,3,4) foldLeft (0.0,0))((x,y) => (x._1+y,x._2+1))
                                                  //> sum  : Double = 10.0
                                                  //| count  : Int = 4
@@ -102,7 +102,7 @@ sum/count 					 //> res13: Double = 2.5
 ```
 The `op` passed to foldLeft(acc) should have the first parameter of same type as the acc (in the above example Tuple(Double,Int).<br/>
 In general, the foldLeft signature is as below
-```
+```scala
 def foldLeft[U](acc: U)(op: (U,T) => U): U = ???
 ```
 The accumulator type is `U` and the function `op` should take a function that takes two parameters of the types `U` and `T` and returns a reuslt of type `U`. Also the function foldLeft returns a type `U`
@@ -136,7 +136,7 @@ e.g., `(List(1,2,3,4) foldRight 0)(_+_)`
           4   0
 ```
 An example where we cannot interchange foldLeft and foldRight, `concat`
-```
+```scala
 def concat[T](xs: List[T],ys: List[T]): List[T] = {
   (xs foldRight ys)(_ :: _)
 }
@@ -167,11 +167,11 @@ x1   x2
 we cannot do concat, `::` on x2 since x2 is a Int, not List. (note `::` is **right associative**)
 ### Pairs and Tuples
 A pair is a Tuple2 in scala. e.g., 
-```
+```scala
 val pair = ("answer",42)
 ```
 We can get the value from the pair like below (this is actually pattern matching)
-```
+```scala
 val (label,value) = pair
 //here label will hold the first value and value will hold the second value
 
@@ -180,14 +180,14 @@ val (x,y,z) = test
 ```
 
 #### Pairs from List *using splitAt*
-```
+```scala
 val pair = xs splitAt index
 ```
 
 
 #### Tuple class
 e.g., of a Tuple 2 class
-```
+```scala
 case class Tuple2[T1,T2](_1: +T1, _2: +T2) {
   overrdie def toString = "("+_1 +","+ _2 +")"
 }
@@ -197,7 +197,7 @@ Since scala names the tuple filed as _1,_2 etc that is why we are able to access
 ### Implicit parameters
 
 If a function defines a parameter as implicit, then while executing that function, if the parameter is avaiable in the scope, it will be accessible inside the function body without having to pass the parameter to the function call.
-```
+```scala
 class ImplicitObj {
 		def execute() = {
 			println("obj executed")
@@ -223,7 +223,7 @@ if multiple implicit objects of the same type is present in the scope while exec
 
 ## Vectors
 Represented as shallow trees
-```
+```scala
 val nums = Vector(1,2,-10,4)
 ```
 - vector of length < 32 elements is array **(level 1)**
@@ -246,7 +246,7 @@ depth of vector log_32(N)
 Super class of List and Vector
 - Array and String are also sequence like strucutre which has operations such as **map, filter, fold, head, tail, takeWhile etc**
 
-```
+```scala
 val l = Array(1,2,3,4)
 l map (x => x+1)
 
@@ -258,7 +258,7 @@ s filter (c => c.isUpper)
 
 ### Range
 gives a range of elements
-```
+```scala
 val r: Range = 1 until 5
 ```
 
@@ -268,12 +268,12 @@ synax : `for (s) yield e`
 **generator** `p <- e` where p is a pattern and e is a collection or an expression who's value is a collection
 **filter** of the form `if f` where f a is boolean expression
 
-```
+```scala
 case class City(name: String, area: Int)
 for (c <- cities if c.area > 1000) yield c.name
 ```
 the above for expression is equivalent to 
-```
+```scala
 cities filter (c => c.area > 1000) map (c => c.name)
 ```
 The difference between for expression and for loop is that, for-loop produces [side effects](https://github.com/soniclavier/learn/tree/master/scala#side-effects)
@@ -281,7 +281,7 @@ The difference between for expression and for loop is that, for-loop produces [s
 **Pattern on the LHS**<br/>
 we can also have patterns on the LHS<br/>
 e.g.,
-```
+```scala
 var x = List(1,2,3)
 for {
 	1 <- x
@@ -291,7 +291,7 @@ res2: List[String] = List(one)
 ```
 
 ## Sets
-```
+```scala
 val s = Set("a","b","c","a")  //> s  : scala.collection.immutable.Set[String] = Set(a, b, c)
 ```
 most operations in sequence is avaiable in set also, such as **map, filter ** etc
@@ -305,12 +305,12 @@ most operations in sequence is avaiable in set also, such as **map, filter ** et
 - Associates key of the type `Key` to a value of the type `Value`
 
 e.g.,
-```
+```scala
 val m = Map("a" -> 97, "b" -> 98)
 ```
 
 #### Maps are Functions
-```
+```scala
 m("a")
 m("c") //throws exception
 m get "c" // Option[Int] = None
@@ -325,7 +325,7 @@ m get "a" // Option[Int] = Some(97)
 #### Sorted and GroupBy
 
 Sort
-```
+```scala
 val l = List("c","b","aa","a","cccc")           //> l  : List[String] = List(c, b, aa, a, cccc)
 l.sorted                                        //> res4: List[String] = List(a, aa, b, c, cccc)
 l.sortWith(_.length < _.length)                 //> res5: List[String] = List(c, b, a, aa, cccc)
@@ -333,19 +333,19 @@ l.sortWith((x,y) =>x.length < y.length)         //> res6: List[String] = List(c,
 ```
 
 Group
-```
+```scala
 l groupBy (x => x.head)                         //> Map(b -> List(b), a -> List(aa, a), c -> List(c, cccc))
 l groupBy (_.length)                            //> Map(2 -> List(aa), 4 -> List(cccc), 1 -> List(c, b, a))
 ```
 
 ### Map as total function (with default values)
-```
+```scala
 val m1 = m withDefaultValue -1
 m1("c")  //-1
 ```
 
 #### Map from sequence
-```
+```scala
 val seq = List((1,"a"),(2,"b"))           //> seq  : List[(Int, String)] = List((1,a), (2,b))
 seq.toMap       
 ```
@@ -359,7 +359,7 @@ The difference between % and %% is that,
 - `%` does not add
 
 e.g.,
-```
+```scala
 "org.scala-tools" % "scala-stm_2.9.1" % "0.3" // you have to specify the scala version
 
 scalaVersion in ThisBuild := "2.11.7"
@@ -369,7 +369,7 @@ scalaVersion in ThisBuild := "2.11.7"
 <blockquote>June 23rd, 2016</blockquote>
 #### Compilation error: Forward reference extends over definition of variable
 One of the reason why this error occurs if you have a method call which is defined after the call, and you have some `val` defenition between the call and the defenition. e.g.,
-```
+```scala
     object ForwardReferenceTest {
     
       def main(args: Array[String]): Unit = {

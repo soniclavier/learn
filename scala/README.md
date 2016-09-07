@@ -173,7 +173,7 @@ class MyTest extends Test {
 
 new MyTest()
 ```
-
+[SO link1](http://stackoverflow.com/questions/16259168/how-does-curly-braces-following-trait-instantiation-work) [SO link2](http://stackoverflow.com/questions/12891321/why-are-traits-instantiable)
 ### exception
 throw Exc
 

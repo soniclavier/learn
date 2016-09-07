@@ -108,6 +108,25 @@ class Square with Shape
 ```
 traits can contains fields and concrete methods which is differant from java, where we cannot have concrete methods
 
+**instantiate a trait??**
+```scala
+trait Test {
+     val x = 10
+}
+
+new Test {
+     print(x)
+}
+```
+This is not actually instantiation of trait, instead this is a shorthand notation to create an anoymous class that extends the trait and instantiate it at the same time. This is equivalent to
+```scala
+class MyTest extends Test {
+     print(x)
+}
+
+new MyTest()
+```
+
 ### exception
 throw Exc
 

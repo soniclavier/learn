@@ -2,15 +2,20 @@
 ## Streams
 Streams are similar to lists, except that the tail is not evaluated until asked for.<br/>
 The Stream would know the head, and would also know how to generate the tail.
-```
+```scala
  val xs = Stream.cons(1, Stream.cons(2, Stream.empty))   //> xs  : Stream.Cons[Int] = Stream(1, ?)
  val ys = List(1,2,3)                                    //> ys  : List[Int] = List(1, 2, 3)
 ```
 Here there is a **?** for the tail of the Stream, indicating it is not evaluated. Whereas for a List, it is evaluated.
 
+A collection such as a List or Set can be converted to stream by uinsg toStream method. e.g.,
+```scala
+List(1,2,3).toStream
+//res1: scala.collection.immutable.Stream[Int] = Stream(1, ?)
+```
 ### Concatinate Strams
 **#::** is the Cons operator for Streams
-```
+```scala
 0 #:: xs   //> res0: scala.collection.immutable.Stream[Int] = Stream(0, ?)
 ```
 the cons method in Stream takes to parameters, head and tail. But the tail is a Name parameter(**called by name**, instead of value). Hence tail is not evaluted. Also, the tail is a `lazy` evaluated.

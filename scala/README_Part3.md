@@ -13,6 +13,20 @@ A collection such as a List or Set can be converted to stream by uinsg toStream 
 List(1,2,3).toStream
 //res1: scala.collection.immutable.Stream[Int] = Stream(1, ?)
 ```
+
+we can get the head of the Stream by calling stream.head
+```scala
+val s = List(1,2,3,4,5,6,7,8,9,10).toStream
+s.head
+```
+**take(n)** returns a Stream with n elements from the current stream
+```scala
+s.take(2)
+```
+**takeWhile()** returns the longest prefix of the stream till the predicte holds true
+```scala
+s.takeWhile(_<5)
+```
 ### Concatinate Strams
 **#::** is the Cons operator for Streams
 ```scala

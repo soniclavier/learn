@@ -9,7 +9,24 @@ Constructor can be created by def this. e.g., below code calls a two arg constru
 class Rational(x:Int,y:Int) {
   def this(x:Int) = this(x,1)
 ```
+### var and val
+`var` stands for variable. The value can be changed/ re-assigned.<br/>
+`val` stands for value. The value cannot be re-assigned, but the value itself can be changed, if it is mutable
+```scala
+class Mutable {
+var x: Int = _
+}
+defined class Mutable
 
+val y = new Mutable
+
+scala> y.x = 10
+y.x: Int = 10
+
+scala> y.x = 11
+y.x: Int = 11
+```
+A variable can be initialized to it's default value by using `_`. E.g., the var x in class Mutable is initialized to it's default value.
 ### Loops
 ```scala
 for(x <- 0 to 10) println(x) //prints 0 to 10
@@ -407,7 +424,21 @@ while calling such function, we don't need explicity specify the type, scala can
 
 *Note:* A `val` is evaluated when the object is first initialized, def is evaluated each time it is referenced. 
 
+`_` can be used to indicate **any type**. e.g.,
+```scala
+scala> class Typed[T] {}
+defined class Typed
 
+scala> class Typed2[T] {}
+defined class Typed2
+
+scala> new Typed2[Typed[Int]]()
+res11: Typed2[Typed[Int]] = Typed2@71e9ddb4  //(A)
+
+scala> new Typed2[Typed[_]]()
+res12: Typed2[Typed[_]] = Typed2@76ed1b7c    //(B)
+```
+In (A), Typed2 is created with a type of Typed of type Int. Where as in (B) Typed2 is created with Typed of any type.	
 <blockquote>April 16th, 2016</blockquote>
 
 ### Functions as Objects

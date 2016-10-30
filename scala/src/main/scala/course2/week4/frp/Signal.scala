@@ -1,5 +1,7 @@
 package course2.week4.frp
 
+import scala.util.DynamicVariable
+
 /**
   * Created by vishnu on 10/29/16.
   */
@@ -11,6 +13,7 @@ class Signal[T](expr: => T) {
   update(expr)
   def apply(): T = {
     observers += caller.value
+    assert(!caller.value.observers.contains(this), "cyclic signal definition")
     myValue
   }
 
@@ -32,7 +35,7 @@ class Signal[T](expr: => T) {
 }
 
 object Signal {
-  private val caller = new StackableVariable[Signal[_]](NoSignal)
+  private val caller = new DynamicVariable[Signal[_]](NoSignal)
   def apply[T](expr: => T) = new Signal(expr)
 }
 

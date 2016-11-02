@@ -316,12 +316,48 @@ m("c") //throws exception
 m get "c" // Option[Int] = None
 m get "a" // Option[Int] = Some(97)
 ```
-**Option** <br/>
+#### Option
 - Option is a `trait Option[+A]`, 
 - there is `case class Some[+A] extends Option[A]`
 - there is an `object None extends Option[Nothing]` 
 
+**creating an Option**
+```scala
+ val o1: Option[String] = Some("test")
+ val o2: Option[String] = None
+```
+**Fold on Option**<br/>
+from [link](http://www.nurkiewicz.com/2014/06/optionfold-considered-unreadable.html)
+```scala
+scala> val default = 0
+default: Int = 0
 
+scala> def fun(in: String): Int = {
+     | in.length()
+     | }
+fun: (in: String)Int
+
+scala> o2.fold(default)(fun)
+res2: Int = 0
+
+scala> o1.fold(default)(fun)
+res1: Int = 4
+```
+this is equivalent to
+```scala
+scala> o1 map fun getOrElse 0
+res3: Int = 4
+
+scala> o2 map fun getOrElse 0
+res4: Int = 0
+```
+Also equivalent to 
+```scala
+scala> o1 match {
+       case Some(o) => fun(o)
+       case None => 0
+       }
+```
 #### Sorted and GroupBy
 
 Sort

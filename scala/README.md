@@ -517,6 +517,28 @@ object Number  {
 }
 ```
 
+### Sealed vs Final classes/trait
+A final class cannot be overriden, but a sealed class can be overriden in the same file. This is because when a trait or a class is defined as sealed, the compiler checks for all the implementations of that sealed trait. This is useful in the case of pattern matching. e.g.,
+```scala
+sealed class MyClass
+case class MySubclass1(a: Int) extends MyClass
+case class MySubclass2(a: Int, b: Int) extends MyClass
+
+def fun(): MyClass = {
+	MySubclass2(1,2)
+}
+val x = fun()
+```
+We created a sealed class and two case classes that extends the sealed class and a function that returns a class of the type MyClass (which is the sealed class). Now let's create a pattern matching on this class
+```scala
+x match {
+	case MySubclass2(_,y) => y
+}
+<console>:16: warning: match may not be exhaustive.
+It would fail on the following inputs: MyClass(), MySubclass1(_)
+       x match {
+```
+Reference links - [link1](http://underscore.io/blog/posts/2015/06/02/everything-about-sealed.html), [link2](http://stackoverflow.com/questions/32199989/what-are-the-differences-between-final-class-and-sealed-class-in-scala)
 ### Pattern Matching
 Compared to java, Scala can have switch cases to match whole *class hierarchy*
 ```scala

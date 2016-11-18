@@ -598,7 +598,7 @@ As we can see, in the call-by-name case the println inside getMeSomeNum exectued
 
 For call-by-name, the evaluation of the passed expression is carried out only at the last( therefore, the expression/function is passed along with all the subsequent function calls before being evaluated). 
 
-### Value defenition
+### Value definition
 ```scala
 val x = 2
 val y = square(x)
@@ -606,4 +606,59 @@ val y = square(x)
 Here `y` is **by-value** defenition. i.e., it is evalauted  when `val y=square(x)` is defined.
 we can do `def x = 2` but there is no point in doing that because we would rather want the variable x to be evaluated when defined, since there is no difference if it evaluated at runtime or at the time of defenition.
 
+### Tail recursion
+Tail recursion implies that in a recursive function, the last line to be executed is a recursive call itself.</br>
+e.g., These functions does not have any logical meaning(only meant to show how tail recursion works)
+```
+def testTailRec(x: Int): Int = {
+    if (x < 0) x
+    else testTailRec(x - 1)
+  }
+```
+Scala automaticaly converts a tail recursive call to a loop, as you can see below (goto indicates a loop) 
+```scala
+public int testTailRec(int);
+    Code:
+       0: iload_1
+       1: iconst_0
+       2: if_icmpge     7
+       5: iload_1
+       6: ireturn
+       7: iload_1
+       8: iconst_1
+       9: isub
+      10: istore_1
+      11: goto          0
+```
+An example of non tail-recursion.
+```scala
+ def testTailRec(x: Int): Int = {
+    if (x < 0) x
+    val y =testTailRec(x - 1)
+    y * 3
+  }
+```
+compiles to below code. Line 20 shows recursive call to same method (testTailRec). i.e., scala did not convert this function to a loop since it was not a tail recursive function.
+```scala
+public int testTailRec(int);
+    Code:
+       0: iload_1
+       1: iconst_0
+       2: if_icmpge     12
+       5: iload_1
+       6: invokestatic  #31                 // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+       9: goto          15
+      12: getstatic     #37                 // Field scala/runtime/BoxedUnit.UNIT:Lscala/runtime/BoxedUnit;
+      15: pop
+      16: aload_0
+      17: iload_1
+      18: iconst_1
+      19: isub
+      20: invokevirtual #39                 // Method testTailRec:(I)I
+      23: istore_2
+      24: iload_2
+      25: iconst_3
+      26: imul
+      27: ireturn
+```
 [Part2](https://github.com/soniclavier/learn/blob/master/scala/README_Part2.md)

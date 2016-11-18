@@ -607,8 +607,9 @@ Here `y` is **by-value** defenition. i.e., it is evalauted  when `val y=square(x
 we can do `def x = 2` but there is no point in doing that because we would rather want the variable x to be evaluated when defined, since there is no difference if it evaluated at runtime or at the time of defenition.
 
 ### Tail recursion
+[reference](https://anadea.info/blog/tail-recursion-in-scala)
 Tail recursion implies that in a recursive function, the last line to be executed is a recursive call itself.</br>
-e.g., These functions does not have any logical meaning(only meant to show how tail recursion works)
+e.g., These functions does not have any logical meaning(only meant to show how tail recursion works).
 ```
 def testTailRec(x: Int): Int = {
     if (x < 0) x

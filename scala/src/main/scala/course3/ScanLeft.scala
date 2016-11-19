@@ -44,7 +44,36 @@ class ScanLeft {
   case class Node[A](l: Tree[A], r: Tree[A]) extends Tree[A]
 
   sealed abstract class TreeRes[A] { val res: A}
-  case class LeafRef[A](override val res: A) extends TreeRes[A]
+  case class LeafRes[A](override val res: A) extends TreeRes[A]
   case class NodeRes[A](l: TreeRes[A], override val res: A, r: TreeRes[A]) extends TreeRes[A]
-  
+
+  def reduceRes[A](inp: Tree[A], f:(A, A) => A): TreeRes[A] = {
+    inp match {
+      case Leaf(a) => LeafRes(a)
+      case Node(l: Tree[A], r: Tree[A]) => {
+        val tLeft = reduceRes(l, f)
+        val tRight = reduceRes(r, f)
+        NodeRes(tLeft,f(tLeft.res, tRight.res), tRight)
+      }
+    }
+  }
+
+  def upsweep[A](inp: Tree[A], f:(A, A) => A): TreeRes[A] = {
+    inp match {
+      case Leaf(a) => LeafRes(a)
+      case Node(l: Tree[A], r: Tree[A]) => {
+        val(tLeft,tRight) = parallel(reduceRes(l, f), reduceRes(r, f))
+        NodeRes(tLeft,f(tLeft.res, tRight.res), tRight)
+      }
+    }
+  }
+
+  def downsweep[A](t: TreeRes[A], a0: A, f:(A, A) => A): Tree[A] = t match {
+    case LeafRes(v) => Leaf(f(a0, v))
+    case NodeRes(l, _, r) =>{
+      val (ltree, rtree) = parallel(downsweep[A](l, a0, f), downsweep(l, f(a0, l.res), f))
+      Node(ltree, rtree)
+    }
+  }
+
 }

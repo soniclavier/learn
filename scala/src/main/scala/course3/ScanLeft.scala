@@ -76,4 +76,55 @@ class ScanLeft {
     }
   }
 
+  def scanLeft[A](t: Tree[A], a0: A, f: (A, A) => A): Tree[A] = {
+    val tRes = upsweep(t, f)
+    val t2 = downsweep(tRes, a0, f)
+    prepend(a0, t2)
+  }
+
+  def prepend[A](a: A, t: Tree[A]): Tree[A] = {
+    t match {
+      case Leaf(x) => Node(Leaf(a), Leaf(x))
+      case Node(l,r) => Node(prepend(a, l), r)
+    }
+  }
+
+  sealed abstract class TreeResA[A] { val res: A}
+  case class LeafResA[A](from: Int, to: Int, override val res: A) extends TreeResA[A]
+  case class NodeResA[A](l: TreeResA[A], override val res: A, r: TreeResA[A]) extends TreeResA[A]
+
+  def upsweep[A](inp: Array[A], from: Int, to: Int, f:(A, A) => A, threshold: Int): TreeResA[A] = {
+    if (to - from < threshold)
+      LeafResA(from, to, reduceSeg(inp, from, to, inp(from), f))
+    else {
+      val mid = from + (to - from)/2
+      val (tl, tr) = parallel(upsweep(inp, from, mid, f, threshold), upsweep(inp, mid, to, f, threshold))
+      NodeResA(tl, f(tl.res, tr.res), tr)
+    }
+  }
+
+  def downsweep[A](inp: Array[A], a0: A, f:(A, A) => A, t: TreeResA[A], out: Array[A]): Unit = t match {
+    case LeafResA(from, to, res) => scanLeftSeg(inp, from, to, res, f, out)
+    case NodeResA(l, _, r) =>{
+      val (_, _) = parallel(downsweep[A](inp, a0, f, l, out), downsweep(inp, f(a0, l.res), f, r, out))
+    }
+  }
+
+  def scanLeftSeg[A](inp: Array[A], from: Int, to: Int, res: A, f:(A, A) => A, out: Array[A]): A = {
+    def helper(idx: Int, b: A): Unit = {
+      if (idx < to) {
+        out(idx + 1) = f(b, inp(idx))
+        helper(idx + 1, out(idx + 1))
+      }
+    }
+    helper(from, res)
+  }
+
+  def scanLeft[A](inp: Array[A], a0: A, f: (A, A) => A, out: Array[A]): Unit = {
+    val t = upsweep(inp, 0, inp.length, f, 10)
+    downsweep(inp, a0, f, t, out)
+    out(0) = a0
+  }
+
+
 }

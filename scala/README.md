@@ -138,6 +138,40 @@ class MyShape extends Shape with Drawable with CanRotate {
      def height = 10
 }
 ```
+Scala allows multiple inheritance using **with(mixin)**, - the conflict(diamond problem) is avoided by making use of hierarchy. The trait that is infront in the hierarchy is given priority e.g.,
+```scala
+trait Vehicle { def move() = println("vehicle moving") }
+trait Car extends Vehicle { override def move() = println("car moving") }
+trait HasWheels extends Vehicle { override def move() = println("wheels moving") }
+trait FourWheeled extends HasWheels { override def move() = println("four wheels moving") }
+
+import scala.reflect.runtime.{universe => u} //for checking hierarchy
+
+class Eclipse extends Vehicle with Car with FourWheeled
+scala> new Eclipse().move
+four wheels moving
+val t = u.typeOf[Eclipse]
+t.baseClasses
+>res17: List[reflect.runtime.universe.Symbol] = List(class Eclipse, trait FourWheeled, trait HasWheels, trait Car, trait Vehicle, class Object, class Any)
+//first Class/Trait with move() defined in the hierarchy is FourWheeled
+
+
+class Eclipse extends Vehicle with FourWheeled with Car
+scala> new Eclipse().move
+car moving
+val t = u.typeOf[Eclipse]
+t.baseClasses
+>res18: List[reflect.runtime.universe.Symbol] = List(class Eclipse, trait Car, trait FourWheeled, trait HasWheels, trait Vehicle, class Object, class Any)
+
+class Eclipse extends Car with FourWheeled with Vehicle
+scala> new Eclipse().move
+four wheels moving
+t.baseClasses
+>res20: List[reflect.runtime.universe.Symbol] = List(class Eclipse, trait FourWheeled, trait HasWheels, trait Car, trait Vehicle, class Object, class Any)
+```
+In the last example,  even though Vehicle is mixed last by FourWheels is "infront" in the hierarchy because Vehicle was loaded up when Car was loaded, FourWheeled trait was loaded after this.
+
+
 we need to use override keyword if we are redefining an already defined method from the trait 
 ```scala
 

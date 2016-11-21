@@ -112,8 +112,8 @@ import somepackage.SomeObject.something
 ```
 
 ### traits
-traits are like interfaces, a class can implement many traits.
-traits can contains fields and concrete methods which is differant from java, where we cannot have concrete methods
+traits are like interfaces but is actually like Java's interface + abstract class, a class can implement many traits.
+traits can contains fields and concrete methods which is differant from java, where we cannot have concrete methods (since traits also behave like abstract classes)
 
 e.g.,
 ```scala

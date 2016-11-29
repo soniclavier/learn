@@ -112,8 +112,8 @@ import somepackage.SomeObject.something
 ```
 
 ### traits
-traits are like interfaces, a class can implement many traits.
-traits can contains fields and concrete methods which is differant from java, where we cannot have concrete methods
+traits are like interfaces but is actually like Java's interface + abstract class, a class can implement many traits.
+traits can contains fields and concrete methods which is differant from java, where we cannot have concrete methods (since traits also behave like abstract classes)
 
 e.g.,
 ```scala
@@ -138,59 +138,7 @@ class MyShape extends Shape with Drawable with CanRotate {
      def height = 10
 }
 ```
-we need to use override keyword if we are redefining an already defined method from the trait 
-```scala
 
-class MyShape extends Shape with Drawable with CanRotate {
-     def height = 10
-     override def weight = 25
-}
-```
-Side note : here height and weight are not variables, instead they are methods. these are methods that does not take any parameters and returns an int. these methods could also be written as
-```scala
-def height(): Int = {
-     return 25
-}
-```
-
-It is sligtly different case when there are vars and vals in trait. e.g.,
-```scala
-trait Test {
-     var x: Int
-     val y: Int
-     val z = 20
-     var a = 30
-}
-```
-to implement this trait,
-```scala
-class MyTest extends Test {
-     var x = 10           //does not need override keyword
-     override val y = 20  //needs override keyword
-     override val z = 15  //needs override keyword
-     //override var a = 80  - we cannot do this, compiler will complain that variable a cannot override a mutable variable
-}
-```
- 
-**instantiate a trait??**
-```scala
-trait Test {
-     val x = 10
-}
-
-new Test {
-     print(x)
-}
-```
-This is not actually instantiation of trait, instead this is a shorthand notation to create an anoymous class that extends the trait and instantiate it at the same time. This is equivalent to
-```scala
-class MyTest extends Test {
-     print(x)
-}
-
-new MyTest()
-```
-[SO link1](http://stackoverflow.com/questions/16259168/how-does-curly-braces-following-trait-instantiation-work) [SO link2](http://stackoverflow.com/questions/12891321/why-are-traits-instantiable)
 ### exception
 throw Exc
 
@@ -539,6 +487,98 @@ It would fail on the following inputs: MyClass(), MySubclass1(_)
        x match {
 ```
 Reference links - [link1](http://underscore.io/blog/posts/2015/06/02/everything-about-sealed.html), [link2](http://stackoverflow.com/questions/32199989/what-are-the-differences-between-final-class-and-sealed-class-in-scala)
+
+### More on Traits
+we need to use override keyword if we are redefining an already defined method from the trait 
+```scala
+
+class MyShape extends Shape with Drawable with CanRotate {
+     def height = 10
+     override def weight = 25
+}
+```
+Side note : here height and weight are not variables, instead they are methods. these are methods that does not take any parameters and returns an int. these methods could also be written as
+```scala
+def height(): Int = {
+     return 25
+}
+```
+
+It is sligtly different case when there are vars and vals in trait. e.g.,
+```scala
+trait Test {
+     var x: Int
+     val y: Int
+     val z = 20
+     var a = 30
+}
+```
+to implement this trait,
+```scala
+class MyTest extends Test {
+     var x = 10           //does not need override keyword
+     override val y = 20  //needs override keyword
+     override val z = 15  //needs override keyword
+     //override var a = 80  - we cannot do this, compiler will complain that variable a cannot override a mutable variable
+}
+```
+ 
+**instantiate a trait??**
+```scala
+trait Test {
+     val x = 10
+}
+
+new Test {
+     print(x)
+}
+```
+This is not actually instantiation of trait, instead this is a shorthand notation to create an anoymous class that extends the trait and instantiate it at the same time. This is equivalent to
+```scala
+class MyTest extends Test {
+     print(x)
+}
+
+new MyTest()
+```
+[SO link1](http://stackoverflow.com/questions/16259168/how-does-curly-braces-following-trait-instantiation-work) [SO link2](http://stackoverflow.com/questions/12891321/why-are-traits-instantiable)
+
+### Traits With(mixin)
+Scala allows multiple inheritance using **with(mixin)**, - the conflict(diamond problem) is avoided by making use of hierarchy. The trait that is infront in the hierarchy is given priority e.g.,
+```scala
+trait Vehicle { def move() = println("vehicle moving") }
+trait Car extends Vehicle { override def move() = println("car moving") }
+trait HasWheels extends Vehicle { override def move() = println("wheels moving") }
+trait FourWheeled extends HasWheels { override def move() = println("four wheels moving") }
+
+import scala.reflect.runtime.{universe => u} //for checking hierarchy
+
+class Eclipse extends Vehicle with Car with FourWheeled
+scala> new Eclipse().move
+four wheels moving
+val t = u.typeOf[Eclipse]
+t.baseClasses
+>res17: List[reflect.runtime.universe.Symbol] = List(class Eclipse, trait FourWheeled, trait HasWheels, trait Car, trait Vehicle, class Object, class Any)
+//first Class/Trait with move() defined in the hierarchy is FourWheeled
+
+
+class Eclipse extends Vehicle with FourWheeled with Car
+scala> new Eclipse().move
+car moving
+val t = u.typeOf[Eclipse]
+t.baseClasses
+>res18: List[reflect.runtime.universe.Symbol] = List(class Eclipse, trait Car, trait FourWheeled, trait HasWheels, trait Vehicle, class Object, class Any)
+
+class Eclipse extends Car with FourWheeled with Vehicle
+scala> new Eclipse().move
+four wheels moving
+t.baseClasses
+>res20: List[reflect.runtime.universe.Symbol] = List(class Eclipse, trait FourWheeled, trait HasWheels, trait Car, trait Vehicle, class Object, class Any)
+```
+In the last example,  even though Vehicle is mixed last but FourWheels is "infront" in the hierarchy because "Vehicle" was loaded up when "Car" was loaded and "FourWheeled" trait was loaded after this.
+
+[link1](http://www.artima.com/pins1ed/traits.html#12.6), [link2](http://softwareengineering.stackexchange.com/questions/237115/how-do-traits-in-scala-avoid-the-diamond-error)
+
 ### Pattern Matching
 Compared to java, Scala can have switch cases to match whole *class hierarchy*
 ```scala

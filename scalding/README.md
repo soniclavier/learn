@@ -3,15 +3,16 @@
 ## Reading input
 `TextLine`, `TypedTsv`
 ```scala
-TextLine(args("input"))
-TextLine("input/path"))
+val test = TextLine("/users/vviswanath/mygit/learn/README.md")
+val testTypedPipe = TypedPipe.from(test)
+testTypedPipe.dump
 ```
+
 ## project
 we can project fields from the source, using project and [Scala symbols](http://stackoverflow.com/questions/1324466/practical-examples-of-using-symbols-in-scala)
 
 ```scala
-val lines = TextLine("inputpath")
-lines.project('line) //line is a default field read by scalding while using TextLine
+test.project('line) //line is a default field read by scalding while using TextLine
 
 //e.g.,if car is having color and make,
 car.project('make) //only projects the make of the car
@@ -33,9 +34,11 @@ cars.map(('make, 'color) -> ('type, 'colorCat)) { t: (String, String) =>
 ```
 
 ## groupBy
-similar to scala, 
+similar to scala, Also takes an additional parameter fields
 ```scala
 val lines = TextLine(args("input"))
 val words = lines.flatMap{ line => line.split(" ") }
 words.groupBy{ word => word(0)}
+
+cars.groupBy('make){ _.
 ```

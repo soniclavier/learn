@@ -17,9 +17,6 @@ emps.local
 ```
 
 
-
-
-
 # TypeSafe
 `TextLine`, `TypedTsv`
 ```scala

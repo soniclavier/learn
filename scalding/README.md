@@ -19,6 +19,7 @@ emps.local
 ### read
 
 ### groupBy
+groupBy(fields){group => group.aggfunc1('newfield_optional).aggfunc2}
 ```scala
 val insurance = Csv("/Users/vviswanath/Documents/scalding_example/FL_insurance_sample.csv", 
  		fields = List('policyID,'statecode,'county,'eq_site_limit,'hu_site_limit,'fl_site_limit,'fr_site_limit,'tiv_2011,'tiv_2012,'eq_site_deductible,'hu_site_deductible,'fl_site_deductible,'fr_site_deductible,'point_latitude,'point_longitude,'line,'construction,'point_granularity))

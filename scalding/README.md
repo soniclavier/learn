@@ -1,6 +1,26 @@
 # Scalding basics and Examples
+There are two types of API in scalding, TypeSafe and Field based
 
+# Field based
 ## Reading input
+
+```scala
+val emps = Csv("/Users/vviswanath/Documents/emp.csv")
+```
+reads a csv file into a `com.twitter.scalding.Csv`. <br/>
+
+### Define schema
+```scala
+val empScheme = List('name, 'age, 'office)
+val emps = Csv("/Users/vviswanath/Documents/emp.csv", fields=empScheme)
+emps.local
+```
+
+
+
+
+
+# TypeSafe
 `TextLine`, `TypedTsv`
 ```scala
 val test = TextLine("/users/vviswanath/mygit/learn/README.md")
@@ -21,7 +41,7 @@ car.project('make) //only projects the make of the car
 ## map, flatMap
 Similar to scala map, flatMap. Additionaly these functions take a map of (existing -> new_field) before the map function
 ```scala
-val lines = TextLine(args("input"))
+val lines = TypePipe.from(TextLine(args("input")))
 lines.flatMap{ line => line.split(" ") } //without the mapping
 
 //map one field to another

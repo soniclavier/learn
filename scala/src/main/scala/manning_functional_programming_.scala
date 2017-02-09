@@ -71,3 +71,55 @@ def length2[A](l: List[A]): Int = {
 def reverse[A](l: List[A]): List[A] = {
 	foldLeft(l, Nil: List[A])((x, y) => x::y)
 }
+
+def append[A](l: List[A], b: A): List[A] = {
+	foldLeft(l, List(b))((x,y) => x::y)
+}
+
+def flattenList[A](l: List[List[A]]): List[A] = {
+	foldLeft(l, Nil: List[A])((xs, sl) => {foldLeft(sl, xs)((ssl, e) => ssl::e)})
+}
+
+def add1(l: List[Int]): List[Int] = {
+	foldRight(l, Nil: List[Int])((e, xs) => (e+1)::xs)
+}
+
+def doubleToString(l: List[Double]): List[String] = {
+	foldRight(l, Nil: List[String])((e, xs) => e.toString::xs)
+}
+
+def map[A, B](as: List[A])(f: A => B): List[B] = {
+	foldRight(as, Nil: List[B])((a, l) => f(a)::l)
+}
+
+def filter[A](as: List[A])(f: A => Boolean): List[A] = {
+	as match {
+		case (h::t) if (f(h)) => h::filter(t)(f)
+		case (h::t) => filter(t)(f)
+		case Nil => Nil
+	}
+}
+
+def filter[A](as: List[A])(f: A => Boolean): List[A] = {
+	foldRight(as, Nil: List[A])((e, xs) => if (f(e)) e::xs else xs)
+}
+
+def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = {
+	foldRight(as, Nil: List[B])((e, xs) => foldRight(f(e), xs)((ee, xxs) => ee::xxs))
+}
+
+def filter2[A](as: List[A])(f: A => Boolean): List[A] = {
+	flatMap(as)(e => if(f(e)) List(e) else Nil)
+}
+
+def addLists(as: List[Int], bs: List[Int]): List[Int] = (as, bs) match {
+	case (Nil, _) => Nil
+	case (_, Nil) => Nil
+	case (a::at, b::bt) => a+b::addLists(at, bt)
+}
+
+def zipWith[A, B, C](as: List[A], bs: List[B])(f: (A, B) => C): List[C] = (as, bs) match {
+	case (Nil, _) => Nil
+	case (_, Nil) => Nil
+	case (a::at, b::bt) => f(a,b)::zipWith(at, bt)(f)
+}

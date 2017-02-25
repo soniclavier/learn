@@ -178,3 +178,46 @@ def depth2[A](t: Tree[A]): Int = {
 def map2[A, B](t: Tree[A])(f: A => B): Tree[B] = {
 	fold(t)(v => Leaf(f(v)): Tree[B])((l, r) => Branch(l, r))
 }
+
+//chapter 4, Option, Either
+
+trait Option[+A] {
+	def map[B](f: A => B): Option[B] = this match {
+		case Some(v) => f(v)
+		case None => None
+	}
+	def flatMap[B](f: A => Option[B]): Option[B] = {
+		map(f) getOrElse None
+	}
+	def getOrElse[B >: A](default: => B): B = this match {
+		case Some(v) => v
+		case None => default
+	}
+	def orElse[B >: A](ob: => Option[B]): Option[B] = {
+		getOrElse ob
+	}
+	def filter(f: A => Boolean): Option[A] = {
+		flatMap(a => if (f(a)) Some(a) else None)
+	}
+}
+
+import scala.util.{Success, Try}
+
+def mean(xs: Seq[Double]): Option[Double] = {
+	val t = xs.foldLeft(0.0, 1)((acc, b) => a._1 + b, a._2 + 1)
+	t._1/t._2
+}
+
+def variance(xs: Seq[Double]): Option[Double] = {
+	mean(xs) flatMap(m => mean(xs map(x => math.pow(x - m, 2))))
+}
+
+def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = (a, b) match {
+	case (Some(a), Some(b)) => Some(f(a,b))
+	case _ => None
+}
+
+def sequence[A](as: List[Option[A]]): Option[List[A]] = as match {
+	case Nil => None
+	case h::t => h.flatMap(hh => sequence(t).map(hh :: _))
+}

@@ -1,3 +1,4 @@
 .idea/
 out/
 algorithms/CCI/*
+*.DS_Store

@@ -183,7 +183,7 @@ def map2[A, B](t: Tree[A])(f: A => B): Tree[B] = {
 
 trait Option[+A] {
 	def map[B](f: A => B): Option[B] = this match {
-		case Some(v) => f(v)
+		case Some(v) => Some(f(v))
 		case None => None
 	}
 	def flatMap[B](f: A => Option[B]): Option[B] = {
@@ -194,12 +194,15 @@ trait Option[+A] {
 		case None => default
 	}
 	def orElse[B >: A](ob: => Option[B]): Option[B] = {
-		getOrElse ob
+		this map(Some(_)) getOrElse ob
 	}
 	def filter(f: A => Boolean): Option[A] = {
 		flatMap(a => if (f(a)) Some(a) else None)
 	}
 }
+
+case class Some[+A](get: A) extends Option[A]
+case object None extends Option[Nothing]
 
 import scala.util.{Success, Try}
 
@@ -217,7 +220,127 @@ def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = (a, b
 	case _ => None
 }
 
-def sequence[A](as: List[Option[A]]): Option[List[A]] = as match {
-	case Nil => None
-	case h::t => h.flatMap(hh => sequence(t).map(hh :: _))
+def sequence[A](a: List[Option[A]]): Option[List[A]] = {
+	a match {
+		case h::t => h.flatMap(e => sequence(t).map(ee => e::ee))
+		case Nil => Some(Nil)
+	}
 }
+
+def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = {
+	a match {
+		case h::t => f(h).flatMap(e => traverse(t)(f).map(ee => e::ee))
+		case Nil => Some(Nil)
+	}
+}
+
+def sequence2[A](a: List[Option[A]]): Option[List[A]] = {
+	traverse(a)(s => s)
+}
+
+//Either
+sealed trait Either[+E, +A] {
+	def map[B](f: A => B): Either[E, B] = {
+		this match {
+			case Right(v) => Right(f(v))
+			case Left(v) => Left(v)
+		}
+	}
+
+	def flatMap[EE >: E, B](f: A => Either[EE, B]): Either[EE, B] = {
+		/*
+		map(f) orElse {this match {
+			case Left(v) => Left(v)
+			}}*/
+		this match {
+			case Right(v) => f(v)
+			case Left(v) => Left(v)
+		}
+	}
+
+	def orElse[EE >: E, B >: A](b: => Either[EE, B]): Either[EE, B] = {
+		this match {
+			case Right(v) => Right(v)
+			case Left(v) => b
+		}
+	}
+
+	def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => Either[EE, C]): Either[EE, C] = {
+		//http://codereview.stackexchange.com/questions/40130/implementing-optionmap2
+		(b, this) match {
+			case (Right(v1), Right(v2)) => f(v2, v1)
+			case (_, Left(v)) => Left(v)
+			case (Left(v), _) => Left(v)
+
+		}
+		/*
+		for {
+			aa <- this
+			bb <- b
+		} yield f(aa, bb)
+		*/
+		/*how does for-comprehension check for None and terminate(what is the equaivalen expansion)
+		http://stackoverflow.com/questions/14598990/confused-with-the-for-comprehension-to-flatmap-map-transformation
+		for comprehension is a syntax shortcut to combine flatMap and map
+		Each line in the expression using the <- symbol is translated to a flatMap call, except for the last line which is translated to a concluding map
+		e.g., 
+		case(1)
+		val m: Option[Int] = Some(25)
+		val k: Option[Int] = Some(10)
+		def f(a: Int, b: Int) = (a*b)/(a+b)
+		for {
+			kk <- k
+     		mm <- m
+     	} yield f(kk,mm)
+     	returns Some(7)
+     	case(2)
+     	val m: Option[Int] = None 
+		//now the for-comprehension will return None
+		if 
+		case(3)
+		val k: Option[Int] = None
+		val m: Option[Int] = Some(25)
+		//again the for-comprehension will return None
+
+		the expanded version of for comprehension is
+		k.flatMap(kk => m.map(mm => f(kk,mm)))
+		to illustrate what is going on
+		k.flatMap(kk => {
+			println("in flatMap with kk = "+kk)
+			m.map(mm => {
+				println("in map with mm = "+mm)
+				f(kk,mm)
+			})
+		})
+
+		case(1) output :
+			Option: in flatmap
+			Option: in map
+			Option: applying f on 10
+			in flatMap with kk = 10
+			Option: in map
+			Option: applying f on 25
+			in map with mm = 25
+			res2: Option[Int] = Some(7)
+			went through both map and flatMap and applied f
+		case(2) output :
+			Option: in flatmap
+			Option: in map
+			Option: applying f on 10
+			in flatMap with kk = 10
+			Option: in map
+			Option: returning None from map
+			res3: Option[Int] = None
+			went through k, but didnt go through m.map since m is None
+		case(3) output:
+			Option: in flatmap
+			Option: in map
+			Option: returning None from map
+			Option: returning None from flatMap
+			res4: Option[Int] = None
+			didnt even go through k.flatMap since k is None
+		*/
+	}
+}
+case class Left[+E](value: E) extends Either[E, Nothing]
+case class Right[+A](value: A) extends Either[Nothing, A]

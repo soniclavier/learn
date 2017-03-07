@@ -180,7 +180,7 @@ def map2[A, B](t: Tree[A])(f: A => B): Tree[B] = {
 }
 
 //chapter 4, Option, Either
-
+import scala.{Option => _, Either => _, _}
 trait Option[+A] {
 	def map[B](f: A => B): Option[B] = this match {
 		case Some(v) => Some(f(v))
@@ -344,3 +344,56 @@ sealed trait Either[+E, +A] {
 }
 case class Left[+E](value: E) extends Either[E, Nothing]
 case class Right[+A](value: A) extends Either[Nothing, A]
+
+//List
+import scala.{List => _}
+import java.lang.Exception
+sealed trait List[+A] {
+	def isEmpty: Boolean
+	def head: A
+	def tail: List[A]
+	def length: Int	
+	def last: A
+	def init: List[A]
+	def take(n: Int): List[A]
+	def drop(n: Int): List[A]
+	def apply(n: Int): A
+}
+case object Nil extends List[Nothing] {
+	def isEmpty = true
+	def head = throw new Exception("Head of empty list")
+	def tail = throw new Exception("Tail of empty list")
+	def length = 0
+	def last = throw new Exception("Last of empty list")
+	def init = throw new Exception("Init of empty list")
+	def take(n: Int) = Nil
+	def drop(n: Int) = Nil
+	def apply(n: Int) = throw new Exception("No such element exception")
+}
+case class Cons[A](val head: A, val tail: List[A]) extends List[A] {
+	def isEmpty = false
+	def length = 1 + tail.length
+	def last = tail match {
+		case Nil => head
+		case _ => tail.last
+	}
+	def init = tail match {
+		case Cons(thead, Nil) => Cons(head, Nil)
+		case Cons(thead, ttail) => Cons(head, tail.init)
+		case _ => Nil
+	}
+	def take(n: Int): List[A] = this match {
+		case Cons(head, tail) if n > 0 => Cons(head, tail.take(n-1))
+		case _ => Nil
+	}
+	def drop(n: Int): List[A] = this match {
+		case Cons(head, tail) if n > 0 => tail.drop(n-1)
+		case _ => this
+	}
+	def apply(n: Int): A = this match {
+		case Cons(head, tail) if n == 0 => head
+		case Cons(head, tail) if n > 0 => tail(n - 1)
+		case _ => throw new Exception("no such element exception")
+	}
+}
+val l = Cons(1, Cons(4, Cons(2, Cons(5, Nil))))

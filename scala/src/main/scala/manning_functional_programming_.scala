@@ -396,4 +396,108 @@ case class Cons[A](val head: A, val tail: List[A]) extends List[A] {
 		case _ => throw new Exception("no such element exception")
 	}
 }
-val l = Cons(1, Cons(4, Cons(2, Cons(5, Nil))))
+
+//chap 6
+trait RNG {
+	def nextInt: (Int, RNG)
+}
+case class SimpleRNG(seed: Long) extends RNG {
+	def nextInt: (Int, RNG) = {
+		val newSeed = (seed * 0x5DEECE66DL + 0xBL) & 0xFFFFFFFFFFFFL
+		val nextRNG = SimpleRNG(newSeed)
+		val n = (newSeed >>> 16).toInt
+		(n, nextRNG)
+	}
+}
+
+
+def nonNegativeInt(rng: RNG): (Int, RNG) = {
+	val (n, rng2) = rng.nextInt
+	(if (n < 0) -(n + 1) else n, rng2)
+}
+
+def double(rng: RNG): (Double, RNG) = {
+	val (n, rng2) = nonNegativeInt(rng)
+	(n / (Int.MaxValue.toDouble + 1), rng2)
+}
+
+def intDouble(rng: RNG): ((Int, Double), RNG) = {
+	val (n, rng2) = rng.nextInt
+	val (d, rng3) = double(rng2)
+	((n, d), rng3)
+}
+
+def doubleInt(rng: RNG): ((Double, Int), RNG) = {
+	val ((n, d), rng2) = intDouble(rng)
+	((d, n), rng2) 
+}
+
+def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
+	if (count > 0) {
+		val (i, r) = rng.nextInt
+		val (l, r2) = ints(count - 1)(r)
+		(i :: l, r2)
+	} else {
+		(List(), rng)
+	}
+}
+
+//tail recursive version
+def ints2(count: Int)(rng: RNG): (List[Int], RNG) = {
+	def intsHelper(count: Int, r: RNG, ls: List[Int]): (List[Int], RNG) = {
+		if (count > 0) {
+			val (i, r2) = r.nextInt
+			intsHelper(count - 1, r2, i::ls)
+		} else {
+			(ls, r)
+		}
+	}
+	intsHelper(count)(rng)
+}
+
+
+type Rand[+A] = RNG => (A, RNG)
+
+val int: Rand[Int] = _.nextInt
+
+def unit[A](a: A): Rand[A] = rng => (a, rng)
+
+def map[A, B](s: Rand[A])(f: A => B): Rand[B] = {
+	rng => {
+		val (i, r) = s(rng)
+		(f(i), r)
+	}
+}
+
+def nonNegativeEven: Rand[Int]  = {
+	map(nonNegativeInt)(i => i/2)
+}
+
+def double2(rng: RNG): (Double, RNG) = {
+	map(nonNegativeInt)(n => n / (Int.MaxValue.toDouble + 1))(rng)
+}
+
+def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = {
+	rng => {
+		val (i1, r1) = ra(rng)
+		val (i2, r2) = rb(r1)
+		(f(i1, i2), r2)
+	}
+}
+
+def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = {
+	def sequenceHelper(fs2: List[Rand[A]])(rng: RNG): (List[A], RNG) = fs2 match {
+		case h::t => {
+			val (i, r2) = h(rng)
+			val (l, rn) = sequenceHelper(t)(r2)
+			((i::l), rn)
+		}
+		case Nil => (List[A](), rng)
+	}
+	rng => sequenceHelper(fs)(rng)
+}
+
+def sequenceUsingFold[A](fs: List[Rand[A]]): Rand[List[A]] = {
+	fs.foldLeft(unit(List[A]()))((f, acc) => map2(f, acc)(_ :: _))
+}
+

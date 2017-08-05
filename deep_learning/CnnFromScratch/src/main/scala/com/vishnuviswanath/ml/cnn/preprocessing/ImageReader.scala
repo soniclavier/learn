@@ -3,12 +3,14 @@ package com.vishnuviswanath.ml.cnn.preprocessing
 import java.io.File
 import javax.imageio.ImageIO
 
+import org.nd4j.linalg.api.ndarray.INDArray
+import org.nd4j.linalg.factory.Nd4j
 /**
   * Created by vviswanath on 8/5/17.
   */
 object ImageReader {
 
-  private def read(file: File): Array[Array[Array[Int]]] = {
+  private def read(file: File): INDArray = {
     val image = ImageIO.read(file)
     val height = image.getHeight
     val width = image.getWidth
@@ -17,21 +19,26 @@ object ImageReader {
     val greens = Array.ofDim[Int](width, height)
     val blues = Array.ofDim[Int](width, height)
 
-    val rgb3d = Array.ofDim[Int](width, height, 3)
+    val rgb3d: Array[Array[Array[Int]]] = Array.ofDim[Int](width, height, 3)
 
-    val colors = for {
+
+    val ndArr = Nd4j.createUninitialized(Array(width, height, 3))
+    val pixels = for {
       c ← Range(0, 3)
       h ← Range(0, height)
       w ← Range(0, width)
-    } {
-      val color = Color(image.getRGB(w, h))
-      c match {
-        case 0 ⇒ rgb3d(w)(h)(0) = color.red
-        case 1 ⇒ rgb3d(w)(h)(1) = color.green
-        case 2 ⇒ rgb3d(w)(h)(2) = color.blue
+    } yield(w, h, c)
+
+    pixels.foldLeft(ndArr)((nd, p) ⇒ {
+      val color = Color(image.getRGB(p._1, p._2))
+      val value = p._3 match {
+        case 0 ⇒ color.red
+        case 1 ⇒ color.green
+        case 2 ⇒ color.blue
       }
-    }
-    rgb3d
+      ndArr.putScalar(p._1, p._2, p._3, value)
+    })
+    ndArr
   }
 
 
@@ -44,7 +51,7 @@ object ImageReader {
   }
 
 
-  def getBatchReader(dir: String, batchSize: Int): BatchReader = {
+  def getBatchReader(dir: String, batchSize: Int): ImageBatchReader = {
     val files = new File(dir).listFiles.filter(f ⇒ f.getName.endsWith("png") || f.getName.endsWith("jpg"))
 
     def batchedFileStream(start: Int): Stream[Array[File]] = {
@@ -52,23 +59,22 @@ object ImageReader {
         .map(i ⇒ files(i)).toArray
       filesInBatch #:: batchedFileStream(start + batchSize)
     }
-
-    new BatchReader(batchedFileStream(0), files, files.length, batchSize)
+    new ImageBatchReader(batchedFileStream(0), files, files.length, batchSize)
   }
 
-  class BatchReader(stream: Stream[Array[File]],
-                            files: Array[File],
-                            remaining: Int,
-                            batchSize: Int)  {
+  class ImageBatchReader(stream: Stream[Array[File]],
+                         files: Array[File],
+                         remaining: Int,
+                         batchSize: Int)  extends BatchReader {
 
     def hasNext: Boolean = remaining > 0
-    def nextBatch: (Array[Array[Array[Array[Int]]]], BatchReader) = {
+    def nextBatch: (Array[INDArray], ImageBatchReader) = {
       println(s"Reading next batch")
       val nBatch = stream.head.map(f ⇒ {
         println(s"Reading file : ${f.getName}")
         read(f)
       })
-      (nBatch, new BatchReader(stream.tail, files, remaining - batchSize, batchSize))
+      (nBatch, new ImageBatchReader(stream.tail, files, remaining - batchSize, batchSize))
     }
   }
 

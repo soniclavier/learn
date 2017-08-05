@@ -3,6 +3,6 @@ package com.vishnuviswanath.ml.cnn.lossfunctions
 /**
   * Created by vviswanath on 8/5/17.
   */
-trait LossFunction {
+case class RMSE() extends LossFunction {
 
 }

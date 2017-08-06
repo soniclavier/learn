@@ -1,11 +1,56 @@
 package com.vishnuviswanath.ml.cnn.layers
 
+import java.io.File
+
+import com.vishnuviswanath.ml.cnn.preprocessing.ImageReader
+import org.nd4j.linalg.api.ndarray.INDArray
+import org.nd4j.linalg.factory.Nd4j
+import org.nd4j.linalg.indexing.NDArrayIndex
+import org.nd4s.Implicits._
+
 /**
   * Created by vviswanath on 8/5/17.
   */
-case class Conv(filters: Int,
+case class Conv(numFilters: Int,
                 filterShape: (Int, Int) = (3, 3),
                 stride: Int = 1,
-                inputShape: Option[(Int, Int, Int)] = None) extends Layer {
+                inputShape: (Int, Int, Int)) extends Layer {
 
+  /**
+    * for an input image with 3 channels, and filter shape of (3,3)
+    * then #numFilters (3 x 3 x 3) filters are created
+    *
+    */
+
+  //Will filters evolve differently if initialized with same weights
+  val filters = for {i ← 0 until numFilters} yield Nd4j.rand(Array(filterShape._1, filterShape._2, inputShape._3))
+
+  def convolve(inputImage: INDArray): INDArray = {
+    val imgHeight = inputShape._1
+    val imgWidth = inputShape._2
+    val filterHeight = filterShape._1
+    val filterWidth = filterShape._2
+    val convResult: INDArray = Nd4j.createUninitialized(Array(imgHeight - filterHeight + 1, imgWidth - filterWidth + 1, numFilters))
+    for(i ← Range(0, imgHeight - filterHeight, step = filterHeight)) {
+      for (j ← Range(0, imgWidth - filterWidth, step = filterWidth)) {
+        val subImageSpace = inputImage.get(NDArrayIndex.interval(i, i + filterHeight), NDArrayIndex.interval(j, j + filterWidth), NDArrayIndex.all())
+        for (k ← Range(0, numFilters)) {
+          val filter3d = filters(k)
+          val convValue = filter3d.dup()
+          convValue.muli(subImageSpace)
+          convResult.putScalar(i, j, k, convValue.sumNumber().doubleValue())
+        }
+      }
+    }
+    convResult
+  }
+}
+
+object TestConv {
+  def main(args: Array[String]): Unit = {
+    val conv = Conv(1, inputShape = (5, 5, 1))
+    val img = (1 to 25).asNDArray(5, 5, 1)
+    val res = conv.convolve(img)
+    res
+  }
 }

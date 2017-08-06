@@ -10,7 +10,7 @@ import org.nd4j.linalg.factory.Nd4j
   */
 object ImageReader {
 
-  private def read(file: File): INDArray = {
+  def read(file: File): INDArray = {
     val image = ImageIO.read(file)
     val height = image.getHeight
     val width = image.getWidth
@@ -18,9 +18,6 @@ object ImageReader {
     val reds = Array.ofDim[Int](width, height)
     val greens = Array.ofDim[Int](width, height)
     val blues = Array.ofDim[Int](width, height)
-
-    val rgb3d: Array[Array[Array[Int]]] = Array.ofDim[Int](width, height, 3)
-
 
     val ndArr = Nd4j.createUninitialized(Array(width, height, 3))
     val pixels = for {

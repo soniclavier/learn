@@ -47,8 +47,18 @@ object ImageReader {
     def blue: Int = (value >> 0) & 0xFF
   }
 
+  def getUnitBatchReader(image: INDArray): BatchReader = {
+    new UnitBatchReader(image, 1)
+  }
 
-  def getBatchReader(dir: String, batchSize: Int): ImageBatchReader = {
+  class UnitBatchReader(image: INDArray, remaining: Int) extends BatchReader {
+    override def hasNext: Boolean = remaining > 0
+    override def nextBatch: (Array[INDArray], BatchReader) = {
+      (Array(image), new UnitBatchReader(null, 0))
+    }
+  }
+
+  def getBatchReader(dir: String, batchSize: Int): BatchReader = {
     val files = new File(dir).listFiles.filter(f ⇒ f.getName.endsWith("png") || f.getName.endsWith("jpg"))
 
     def batchedFileStream(start: Int): Stream[Array[File]] = {
@@ -65,7 +75,7 @@ object ImageReader {
                          batchSize: Int)  extends BatchReader {
 
     def hasNext: Boolean = remaining > 0
-    def nextBatch: (Array[INDArray], ImageBatchReader) = {
+    def nextBatch: (Array[INDArray], BatchReader) = {
       println(s"Reading next batch")
       val nBatch = stream.head.map(f ⇒ {
         println(s"Reading file : ${f.getName}")
@@ -73,6 +83,7 @@ object ImageReader {
       })
       (nBatch, new ImageBatchReader(stream.tail, files, remaining - batchSize, batchSize))
     }
+
   }
 
 

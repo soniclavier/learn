@@ -19,9 +19,15 @@ case class Dense(size: Int, inputSize: Int, func: ActivationFunction) extends La
       }).sum)
       output.putScalar(i, value)
     }
+    if (debug) println(s"Dense result: ${toString(output)}")
     output
   }
+
+  override def toString: String = {
+    s"Dense[$inputSize → $size]"
+  }
 }
+
 
 object TestDense {
   def main(args: Array[String]): Unit ={

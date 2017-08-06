@@ -6,6 +6,8 @@ import org.nd4j.linalg.factory.Nd4j
 import org.nd4j.linalg.indexing.NDArrayIndex
 import org.nd4s.Implicits._
 
+import scala.collection.immutable.IndexedSeq
+
 /**
   * Created by vviswanath on 8/5/17.
   */
@@ -22,9 +24,10 @@ case class Conv(numFilters: Int,
     */
 
   //Will filters evolve differently if initialized with same weights
-  val filters = for {i ← 0 until numFilters} yield Nd4j.rand(Array(filterShape._1, filterShape._2, inputShape._3))
+  val filters: IndexedSeq[INDArray] = for {i ← 0 until numFilters} yield Nd4j.rand(Array(filterShape._1, filterShape._2, inputShape._3))
 
   def applyLayer(inputImage: INDArray): INDArray = {
+    verifyInput(inputImage, inputShape)
     val imgHeight = inputShape._1
     val imgWidth = inputShape._2
     val filterHeight = filterShape._1
@@ -41,7 +44,12 @@ case class Conv(numFilters: Int,
         }
       }
     }
+    if (debug) println(s"ConvLayer result: ${toString(convResult)}")
     convResult
+  }
+
+  override def toString: String = {
+    s"Conv Layer[$inputShape → (${inputShape._1 - filterShape._1 +1}, ${inputShape._2 - filterShape._2 + 1}, $numFilters)]"
   }
 }
 

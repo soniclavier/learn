@@ -5,6 +5,8 @@ import javax.imageio.ImageIO
 
 import org.nd4j.linalg.api.ndarray.INDArray
 import org.nd4j.linalg.factory.Nd4j
+
+import scala.util.Random
 /**
   * Created by vviswanath on 8/5/17.
   */
@@ -47,19 +49,23 @@ object ImageReader {
     def blue: Int = (value >> 0) & 0xFF
   }
 
-  def getUnitBatchReader(image: INDArray): BatchReader = {
-    new UnitBatchReader(image, 1)
+  def getUnitBatchReader(image: INDArray, `class`: String): BatchReader = {
+    new UnitBatchReader(image, 1, `class`)
   }
 
-  class UnitBatchReader(image: INDArray, remaining: Int) extends BatchReader {
+  class UnitBatchReader(image: INDArray, remaining: Int, `class`: String) extends BatchReader {
     override def hasNext: Boolean = remaining > 0
-    override def nextBatch: (Array[INDArray], BatchReader) = {
-      (Array(image), new UnitBatchReader(null, 0))
+    override def nextBatch: (Array[ImageWithClass], BatchReader) = {
+      (Array((image, `class`)), new UnitBatchReader(null, 0, `class`))
     }
   }
 
   def getBatchReader(dir: String, batchSize: Int): BatchReader = {
-    val files = new File(dir).listFiles.filter(f ⇒ f.getName.endsWith("png") || f.getName.endsWith("jpg"))
+    val files: Array[File] = new File(dir)
+      .listFiles.filterNot(f ⇒ f.getName.startsWith("."))
+      .flatMap(subdir ⇒ subdir.listFiles)
+      .filter(f ⇒ f.getName.endsWith("png") || f.getName.endsWith("jpg"))
+
 
     def batchedFileStream(start: Int): Stream[Array[File]] = {
       val filesInBatch = (start until Math.min(files.length, start + batchSize))
@@ -75,20 +81,24 @@ object ImageReader {
                          batchSize: Int)  extends BatchReader {
 
     def hasNext: Boolean = remaining > 0
-    def nextBatch: (Array[INDArray], BatchReader) = {
+    def nextBatch: (Array[ImageWithClass], BatchReader) = {
       println(s"Reading next batch")
-      val nBatch = stream.head.map(f ⇒ {
+      val nBatch: Array[ImageWithClass] = stream.head.map(f ⇒ {
         println(s"Reading file : ${f.getName}")
-        read(f)
+        val `class` = f.getParent.substring(f.getParent.lastIndexOf("/"))
+        (read(f), `class`)
       })
+
       (nBatch, new ImageBatchReader(stream.tail, files, remaining - batchSize, batchSize))
     }
 
   }
 
+  type ImageWithClass = (INDArray, String)
+
 
   def main(args: Array[String]): Unit = {
-    var batchReader = ImageReader.getBatchReader("/Users/vviswanath/Downloads/mnist/0", 10)
+    var batchReader = ImageReader.getBatchReader("/Users/vviswanath/Downloads/mnist", 10)
 
     while(batchReader.hasNext) {
       batchReader = batchReader.nextBatch._2

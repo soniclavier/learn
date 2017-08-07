@@ -1,5 +1,6 @@
 package com.vishnuviswanath.ml.cnn.preprocessing
 
+import com.vishnuviswanath.ml.cnn.preprocessing.ImageReader.ImageWithClass
 import org.nd4j.linalg.api.ndarray.INDArray
 
 /**
@@ -8,6 +9,6 @@ import org.nd4j.linalg.api.ndarray.INDArray
 trait BatchReader {
 
   def hasNext: Boolean
-  def nextBatch: (Array[INDArray],BatchReader)
+  def nextBatch: (Array[ImageWithClass],BatchReader)
 
 }

@@ -24,7 +24,10 @@ case class Conv(numFilters: Int,
     */
 
   //Will filters evolve differently if initialized with same weights
-  val filters: IndexedSeq[INDArray] = for {i ← 0 until numFilters} yield Nd4j.rand(Array(filterShape._1, filterShape._2, inputShape._3))
+  val filtersInitial: IndexedSeq[INDArray] = for {i ← 0 until numFilters} yield Nd4j.rand(Array(filterShape._1, filterShape._2, inputShape._3))
+  val filters = filtersInitial.map(f ⇒ {
+    f.map(d ⇒ Math.round(d*100)/100)
+  })
 
   def applyLayer(inputImage: INDArray): INDArray = {
     verifyInput(inputImage, inputShape)

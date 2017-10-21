@@ -106,38 +106,42 @@ dis advantage - central txn history
 
 ### How bitcoin consensus would have worked if we use traditional consensus algms:
 
-	- uses consensus algorithm to agree upon a transaction history
-	- each node has this txn sequence(blocks of txns) - that they have reached a consensus on
-	- each node can have a set of txns that it has heard, but is not yet broadcasted to other nodes
-	- each node sends its block to all other nodes - and one block is chosen and then added to the chain
+- uses consensus algorithm to agree upon a transaction history
+- each node has this txn sequence(blocks of txns) - that they have reached a consensus on
+- each node can have a set of txns that it has heard, but is not yet broadcasted to other nodes
+- each node sends its block to all other nodes - and one block is chosen and then added to the chain
+
 ### why traditional algms dont work:
 
-	- nodes may crash
-	- malicious node
-	- not all nodes are connected
-	- faulty network
-	- latency
-	- no global time
-	- byzantine general's problem
-	- fisher lynch paterson impossibility problem
+- nodes may crash
+- malicious node
+- not all nodes are connected
+- faulty network
+- latency
+- no global time
+- byzantine general's problem
+- fisher lynch paterson impossibility problem
 
 ### How bitcoin solves the problem:
 
-	- introduces incentives
-	- consensus happens over long time
-	- no long term identity in bitcoin
-		- having identity can cause sybil attack
+- introduces incentives
+- consensus happens over long time
+- no long term identity in bitcoin
+	- having identity can cause sybil attack
 		
 ### bitcoin's consensus algm:
-	- alice boradcast that she made a payement to bob - to all nodes in the network.	
-	- each node updates its block with this transaction
-	- in each round, a random node is selected to broadcast it's blocks
-	- other nodes validates each txn in this block
-	- if found valid, it adds the blocks hash as its next block
-attacks
-	- alice try to steal another bob's coin - not possible since cannot forge bob's signature
-	- alice try to deny service to bob by not including that txn. - in the next round alice will not be chosen(randomly) to broadcast, then bob's txn will make it in the blockchain.
-	- alice try to spend a coin to bob and Alice'(owned by alice)
-		- if the txn from alice -> alice' gets added to the chain, this also => bob lost the coin, since that tnx did not make it to the chain. - orphan block
-	(Honest node always extends longest chain)
-		- to prevent double spend, Bob should wait for more confirmation from other nodes before completing the txn.
+
+- alice boradcast that she made a payement to bob - to all nodes in the network.	
+- each node updates its block with this transaction
+- in each round, a random node is selected to broadcast it's blocks
+- other nodes validates each txn in this block
+- if found valid, it adds the blocks hash as its next block 
+
+### attacks
+
+- alice try to steal another bob's coin - not possible since cannot forge bob's signature
+- alice try to deny service to bob by not including that txn. - in the next round alice will not be chosen(randomly) to broadcast, then bob's txn will make it in the blockchain.
+- alice try to spend a coin to bob and Alice'(owned by alice)
+	- if the txn from alice -> alice' gets added to the chain, this also => bob lost the coin, since that tnx did not make it to the chain. - orphan block
+- (Honest node always extends longest chain)
+	- to prevent double spend, Bob should wait for more confirmation from other nodes before completing the txn.

@@ -11,28 +11,32 @@ from [course](https://www.coursera.org/learn/cryptocurrency)
 ## commitment
 
 to write:
-commitment, key = commit(msg)
-publish commitment
+
+    commitment, key = commit(msg)
+    publish commitment
 
 to read:
-publish key, msg
-match = verify(commitment, key, msg)
+
+    publish key, msg
+    match = verify(commitment, key, msg)
 
 hiding property :
-binding property : not possible to find msg' such as verify(commitment, key, msg') = true
-puzzle friendly : given H(key, msg), and if key randomized 256 bit value, then its not possible to find msg' such that H(key, msg') = H(key, msg). Here key is public key. 
+binding property : not possible to find msg' such as 
+
+    verify(commitment, key, msg') = true
+puzzle friendly : given `H(key, msg)`, and if key randomized 256 bit value, then its not possible to find `msg'` such that `H(key, msg') = H(key, msg)`. Here key is public key. 
 
 ## how SHA works
 
 split the message into blocks of equal size - 512 bits
 padding is added in last block (also adds the length bit)
 
-comp_fn is the compression function
-o1 = comp_fn(iv, block1)
-o2 = comp_fn(o1, block2)
-.
-.
-hash = comp_fn(o(n-1), block_n)
+	comp_fn is the compression function
+	o1 = comp_fn(iv, block1)
+	o2 = comp_fn(o1, block2)
+	.
+	.
+	hash = comp_fn(o(n-1), block_n)
 
 ## Hash Pointer
 pointer to where some data is stored + cryptographic hash of that data
@@ -51,22 +55,21 @@ only the author can sign
 every one else can verify that it's your signature
 sign is tied to a document(cant copy a sign from one doc to another)
 
-(sk, pk) = generateKeys(keysize)
-sk = secret key
-pk = public key
+	(sk, pk) = generateKeys(keysize)
+	sk = secret key
+	pk = public key
 
-signature = sign(sk, message)
-isValid = verify(signature, pk, message)
+	signature = sign(sk, message)
+	isValid = verify(signature, pk, message)
 
 - cant forge signature
 
 use: if hashpointer end of blockchain is signed, then its is equal to signing the entire blockchain
-
-Bitcoin uses ECDSA signature algorithm.
+Bitcoin uses [ECDSA](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm) signature algorithm.
 
 ## Public key as identity
 
-if verify("hii", pk, signature) == true ("hii" is the message here)
+if `verify("hii", pk, signature) == true` ("hii" is the message here)
 then we can be sure that the "hii" came from pk (the person who owns the sk of pk). => pk says "hii"
 
 ## Goofycoin

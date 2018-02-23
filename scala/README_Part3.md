@@ -1,4 +1,5 @@
 <blockquote>Sep 2nd, 2016</blockquote>
+
 ## Streams
 Streams are similar to lists, except that the tail is not evaluated until asked for.<br/>
 The Stream would know the head, and would also know how to generate the tail.
@@ -27,6 +28,7 @@ s.take(2)
 ```scala
 s.takeWhile(_<5)
 ```
+
 ### Concatinate Strams
 **#::** is the Cons operator for Streams
 ```scala

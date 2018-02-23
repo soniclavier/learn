@@ -1,4 +1,5 @@
 <blockquote>April 20th, 2016</blockquote>
+
 # Collections
 
 ## Lists
@@ -403,6 +404,7 @@ scalaVersion in ThisBuild := "2.11.7"
 
 ```
 <blockquote>June 23rd, 2016</blockquote>
+
 #### Compilation error: Forward reference extends over definition of variable
 One of the reason why this error occurs if you have a method call which is defined after the call, and you have some `val` defenition between the call and the defenition. e.g.,
 ```scala
@@ -415,7 +417,9 @@ One of the reason why this error occurs if you have a method call which is defin
       }
     }
 ```
+
 you will get error
+
 ```
     Error:(7, 5) forward reference extends over definition of value x
         test

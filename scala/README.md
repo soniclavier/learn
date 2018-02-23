@@ -3,12 +3,14 @@
 ***These are notes for self referance***
 
 <blockquote>March 5th, 2016</blockquote>
+
 ### constructor
 Constructor can be created by def this. e.g., below code calls a two arg constructor from single arg<br/>
 ```scala
 class Rational(x:Int,y:Int) {
   def this(x:Int) = this(x,1)
 ```
+
 ### var and val
 `var` stands for variable. The value can be changed/ re-assigned.<br/>
 `val` stands for value. The value cannot be re-assigned, but the value itself can be changed, if it is mutable
@@ -27,6 +29,7 @@ scala> y.x = 11
 y.x: Int = 11
 ```
 A variable can be initialized to it's default value by using `_`. E.g., the var x in class Mutable is initialized to it's default value.
+
 ### Loops
 ```scala
 for(x <- 0 to 10) println(x) //prints 0 to 10
@@ -39,6 +42,7 @@ ls.foreach{println} //prints 1,2,3
 val ls = List(1,2,3,1)
 for( l <- ls if l == 1) println(l) //prints 1,1
 ```
+
 ### require()
 
 can be used to specify a condition/requirement
@@ -48,12 +52,14 @@ class Rational(x:Int,y:Int) {
   require(y!=0,"denominator must be non-zero")
 }
 ```
+
 ### assert()
 
 We can also use assert.<br/>
 Assert throws assertion error, require throws illegal argument exception
 
 <blockquote>March 6th, 2016</blockquote>
+
 ### infix notation
 
 suppose there is function add in class Rational that takes another rational number, then instead of writing
@@ -96,6 +102,7 @@ class SomeOtherClass extends IntSet {
   def partial(x:Int): Int = x*2
 }
 ```
+
 ### singleton object
 - instead of `class` use `object` 
 - to create a singleton object, all that has to be done is to make it an object instead of class
@@ -213,6 +220,7 @@ def test(bs : Int*) {
 }                                               
 test(1,2,3) 
 ```
+
 # Advanced 
 
 ### Type Alias
@@ -609,9 +617,11 @@ Pattern examples:<br/>
 
 
 <blockquote>May 21st, 2016</blockquote>
+
 ### Call-by-name and Call-by-value
 
 [SO Question](http://stackoverflow.com/questions/13337338/call-by-name-vs-call-by-value-in-scala-clarification-needed)
+
 #### Side-effects
 A function that does not have side effect, just computes the result and returns it, where as a function with side-effect will also do something extra (may be call someother function) before returning the value.
 
@@ -632,6 +642,7 @@ def addCallByName(x: => Int) = {
 }
 ```
 So the difference in syntax is that call-by-value is of the form **arg: Type** where as call-by-name is of the form **arg: => Type**
+
 #### Difference wrt to evaluation
 Consider the below function that returns an Integer ( this is an example of function with side-effect)
 ```scala
@@ -724,4 +735,5 @@ public int testTailRec(int);
       26: imul
       27: ireturn
 ```
+
 [Part2](https://github.com/soniclavier/learn/blob/master/scala/README_Part2.md)

@@ -105,6 +105,7 @@ Applicative[Option].pure(1)
 ### Monad
 Applicative type + flatMap
 should follow following rules:
+
 	1. left unit law : pure(x) flatMap f == f(x)
 	2. right unit law: mn flatMap pure == mn
 	3. associative law: (a flatMap b) flatMap c == a flatMap (b flatMap c)

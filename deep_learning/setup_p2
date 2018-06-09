@@ -1,0 +1,8 @@
+Setup P2 instance in AWS
+------------------------
+if no instance in stopped state, delete fast_ai vpc and run ./setup_p2.sh
+else start instance,
+ssh into it
+
+getting kaggle data
+

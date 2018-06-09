@@ -1,3 +1,5 @@
+package leetcode.aliendictionary;
+
 import java.util.*;
 
 public class AlienDictionary {

@@ -10,7 +10,7 @@ trait Layer {
   var debug: Boolean = false
   def enableDebugging: Unit = debug = true
 
-  def applyLayer(input: INDArray): INDArray
+  def feedForward(input: INDArray): INDArray
 
   def verifyInput(input: INDArray, shape: (Int, Int, Int)): Unit = {
     val inputShape = input.shape

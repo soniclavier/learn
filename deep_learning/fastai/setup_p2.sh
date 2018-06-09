@@ -1,3 +1,4 @@
+
 #!/bin/bash
 # set -x # Use for debug mode
 
@@ -6,8 +7,12 @@ export name="fast-ai"
 export cidr="0.0.0.0/0"
 
 #change to correct aws profile, not to conflict with work profile
-export AWS_DEFAULT_PROFILE=ai
-
+export AWS_PROFILE=ai
+if [ $AWS_PROFILE != "ai" ]; then
+    echo "profile not set as ai"
+    exit 1
+fi
+echo $AWS_PROFILE
 hash aws 2>/dev/null
 if [ $? -ne 0 ]; then
     echo >&2 "'aws' command line tool required, but not installed.  Aborting."

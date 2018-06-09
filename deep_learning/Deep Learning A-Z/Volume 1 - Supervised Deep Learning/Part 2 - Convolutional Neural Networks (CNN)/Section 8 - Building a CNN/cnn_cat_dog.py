@@ -47,3 +47,4 @@ classifier.fit_generator(
 	epochs=25,
 	validation_data=test_generator,
 	validation_steps=2000)
+

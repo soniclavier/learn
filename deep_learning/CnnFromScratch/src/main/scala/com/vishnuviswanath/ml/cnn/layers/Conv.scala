@@ -29,7 +29,7 @@ case class Conv(numFilters: Int,
     f.map(d ⇒ Math.round(d*100)/100)
   })
 
-  def applyLayer(inputImage: INDArray): INDArray = {
+  def feedForward(inputImage: INDArray): INDArray = {
     verifyInput(inputImage, inputShape)
     val imgHeight = inputShape._1
     val imgWidth = inputShape._2
@@ -60,7 +60,7 @@ object TestConv {
   def main(args: Array[String]): Unit = {
     val conv = Conv(1, inputShape = (5, 5, 1), actFunction= Relu)
     val img = (1 to 25).asNDArray(5, 5, 1)
-    val res = conv.applyLayer(img)
+    val res = conv.feedForward(img)
     res
     print(res)
   }

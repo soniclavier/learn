@@ -1,20 +1,20 @@
 # Connect to your instance:
-ssh -i /Users/vviswanath/.ssh/aws-key-fast-ai.pem ubuntu@ec2-34-210-52-195.us-west-2.compute.amazonaws.com
+ssh -i /Users/vviswanath/.ssh/aws-key-fast-ai.pem ubuntu@ec2-52-39-81-22.us-west-2.compute.amazonaws.com
 # Stop your instance: :
-aws ec2 stop-instances --instance-ids i-07c9a599e6c7d3af2
+aws ec2 stop-instances --instance-ids i-015e364c15581eec1
 # Start your instance:
-aws ec2 start-instances --instance-ids i-07c9a599e6c7d3af2
+aws ec2 start-instances --instance-ids i-015e364c15581eec1
 # Reboot your instance:
-aws ec2 reboot-instances --instance-ids i-07c9a599e6c7d3af2
-export instanceId=i-07c9a599e6c7d3af2
-export subnetId=subnet-794b4e30
-export securityGroupId=sg-d104b9ab
-export instanceUrl=ec2-34-210-52-195.us-west-2.compute.amazonaws.com
-export routeTableId=rtb-40dbfe26
+aws ec2 reboot-instances --instance-ids i-015e364c15581eec1
+export instanceId=i-015e364c15581eec1
+export subnetId=subnet-73601a15
+export securityGroupId=sg-af5f6ed2
+export instanceUrl=ec2-52-39-81-22.us-west-2.compute.amazonaws.com
+export routeTableId=rtb-f01a6f89
 export name=fast-ai
-export vpcId=vpc-209f4e46
-export internetGatewayId=igw-913ebef6
-export subnetId=subnet-794b4e30
-export allocAddr=eipalloc-4e2ecd73
-export assocId=eipassoc-b292868f
-export routeTableAssoc=rtbassoc-00615979
+export vpcId=vpc-4cc2f22a
+export internetGatewayId=igw-5e525439
+export subnetId=subnet-73601a15
+export allocAddr=eipalloc-f8660dc5
+export assocId=eipassoc-5c2c5b63
+export routeTableAssoc=rtbassoc-f5948f8d

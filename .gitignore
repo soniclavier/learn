@@ -1,6 +1,14 @@
+*.pem
+*.jpg
+*.csv
+*.gz
+*.tar.gz
 .idea/
 out/
 algorithms/CCI/*
 *.DS_Store
 
 *.ipynb_checkpoints
+
+
+*.class

@@ -51,7 +51,7 @@ class CnnModel(layers: Array[Layer] = Array(),
       println(s"epoch $i")
       inputBatchStream.foreach(batch ⇒{
         batch.foreach(imageWithClass ⇒  {
-          val output = layers.foldLeft(imageWithClass._1)((image, layer) ⇒ layer.applyLayer(image))
+          val output = layers.foldLeft(imageWithClass._1)((image, layer) ⇒ layer.feedForward(image))
           println(output.getDouble(0), imageWithClass._2)
         })
       })

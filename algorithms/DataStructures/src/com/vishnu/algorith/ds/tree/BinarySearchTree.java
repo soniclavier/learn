@@ -1,4 +1,4 @@
-import java.util.List;
+package com.vishnu.algorith.ds.tree;
 
 /**
  * Created by vishnu on 2/24/16.
@@ -26,11 +26,11 @@ public class BinarySearchTree {
     private void deleteRec(Node localRoot,Node parentNode,int weight) {
         if (localRoot == null)
             return;
-        if (localRoot.weight == weight) {
+        if (localRoot.value == weight) {
             if (parentNode == null)
                 localRoot = null;
             else {
-                if (parentNode.weight > localRoot.weight) {
+                if (parentNode.value > localRoot.value) {
                     if (localRoot.right != null) {
                         parentNode.left = localRoot.right;
                         localRoot.right.left = localRoot.left;
@@ -47,7 +47,7 @@ public class BinarySearchTree {
                 }
             }
         } else {
-            if (localRoot.weight > weight)
+            if (localRoot.value > weight)
                 deleteRec(localRoot.left,localRoot,weight);
             else
                 deleteRec(localRoot.right,localRoot,weight);
@@ -55,12 +55,12 @@ public class BinarySearchTree {
     }
 
     private void insertRec(Node localRoot,Node toInsert) {
-        if (toInsert.weight<localRoot.weight) {
+        if (toInsert.value <localRoot.value) {
             if (localRoot.left == null)
                 localRoot.left=toInsert;
             else
                 insertRec(localRoot.left,toInsert);
-        } else if (toInsert.weight >localRoot.weight){
+        } else if (toInsert.value >localRoot.value){
             if (localRoot.right == null)
                 localRoot.right = toInsert;
             else
@@ -85,14 +85,3 @@ public class BinarySearchTree {
     }
 }
 
-class Node {
-
-    Node left = null;
-    Node right = null;
-    int weight;
-
-    public Node(int weight) {
-        this.weight = weight;
-    }
-
-}

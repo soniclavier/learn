@@ -1,3 +1,5 @@
+package com.vishnu.algorithm;
+
 public class BstSecondLargest {
 	public static void main(String[] args) {
 		/*

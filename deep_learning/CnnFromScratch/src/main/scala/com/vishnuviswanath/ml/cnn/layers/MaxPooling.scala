@@ -9,7 +9,7 @@ import org.nd4s.Implicits._
   * Created by vviswanath on 8/5/17.
   */
 case class MaxPooling(inputShape: (Int, Int, Int), size: (Int, Int) = (2, 2)) extends Layer {
-  override def applyLayer(inputImage: INDArray): INDArray = {
+  override def feedForward(inputImage: INDArray): INDArray = {
     verifyInput(inputImage, inputShape)
     val height = inputShape._1
     val width = inputShape._2
@@ -40,7 +40,7 @@ case class MaxPooling(inputShape: (Int, Int, Int), size: (Int, Int) = (2, 2)) ex
 object TestMaxPooling {
   def main(args: Array[String]): Unit = {
     val maxPoolingLayer = MaxPooling((5, 5, 3))
-    val res = maxPoolingLayer.applyLayer((0 until 75).asNDArray(5,5,3))
+    val res = maxPoolingLayer.feedForward((0 until 75).asNDArray(5,5,3))
     res
   }
 }

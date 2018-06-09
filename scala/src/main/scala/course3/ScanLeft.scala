@@ -103,14 +103,14 @@ class ScanLeft {
     }
   }
 
-  def downsweep[A](inp: Array[A], a0: A, f:(A, A) => A, t: TreeResA[A], out: Array[A]): Unit = t match {
+  /*def downsweep[A](inp: Array[A], a0: A, f:(A, A) => A, t: TreeResA[A], out: Array[A]): Unit = t match {
     case LeafResA(from, to, res) => scanLeftSeg(inp, from, to, res, f, out)
     case NodeResA(l, _, r) =>{
       val (_, _) = parallel(downsweep[A](inp, a0, f, l, out), downsweep(inp, f(a0, l.res), f, r, out))
     }
   }
-
-  def scanLeftSeg[A](inp: Array[A], from: Int, to: Int, res: A, f:(A, A) => A, out: Array[A]): A = {
+*/
+  /*def scanLeftSeg[A](inp: Array[A], from: Int, to: Int, res: A, f:(A, A) => A, out: Array[A]): A = {
     def helper(idx: Int, b: A): Unit = {
       if (idx < to) {
         out(idx + 1) = f(b, inp(idx))
@@ -118,13 +118,13 @@ class ScanLeft {
       }
     }
     helper(from, res)
-  }
+  }*/
 
-  def scanLeft[A](inp: Array[A], a0: A, f: (A, A) => A, out: Array[A]): Unit = {
+  /*def scanLeft[A](inp: Array[A], a0: A, f: (A, A) => A, out: Array[A]): Unit = {
     val t = upsweep(inp, 0, inp.length, f, 10)
     downsweep(inp, a0, f, t, out)
     out(0) = a0
-  }
+  }*/
 
 
 }

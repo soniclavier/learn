@@ -9,9 +9,10 @@ import org.nd4s.Implicits._
   * Created by vviswanath on 8/5/17.
   */
 case class Dense(size: Int, inputSize: Int, func: ActivationFunction) extends Layer {
+  //TODO: wrong, weights is [inputsize x outputsize]
   val weights: INDArray = Nd4j.rand(1, inputSize)
 
-  override def applyLayer(input: INDArray): INDArray = {
+  override def feedForward(input: INDArray): INDArray = {
     val output = Nd4j.createUninitialized(size)
     for(i ← 0 until size)  {
       val value = func((0 until inputSize).map(j ⇒ {
@@ -32,7 +33,7 @@ case class Dense(size: Int, inputSize: Int, func: ActivationFunction) extends La
 object TestDense {
   def main(args: Array[String]): Unit ={
     val dl = new Dense(5, 10, Relu)
-    val res = dl.applyLayer((-1 to 9).toNDArray)
+    val res = dl.feedForward((-1 to 9).toNDArray)
     res
   }
 }

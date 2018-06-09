@@ -1,0 +1,50 @@
+LSTM notes
+
+
+key terms:
+1. lag - the number of previous entries that is used to predict the current entry
+2. multivariate lstm - a model that uses more than one features
+3. multi-step output - forecast more than one output
+4. trend - upward/downward. how the overall series progresses - linear, damped, exponential etc.
+5. seasonality - repeating patterns within a trend. - no seasonality, additive, multiplicative etc.
+
+
+Keras:
+	unroll=True, keras will unroll the RNN. Requires more memory, but faster. If False, will use a for-loop
+	timesteps - how many timesteps does backprop look back to calculate gradients.
+
+
+learnings:
+	1. normalize inputs - faster learning 
+	2. relu dying problem
+	3. increasing number of layers/units/timesteps?
+    4. multivariate - multiple input variables - e.g., temperature & humidity (all variables are series, not static)
+    5. seasonality and trend are not good for timeseries modeling - to learn the underlying trend, not just the ups/downs due to the seasonality or trend.
+            two unrelated timeseries might show high correlation if both them have same trend/seasonality which is wrong.
+                    https://svds.com/avoiding-common-mistakes-with-time-series/
+    6. setting lag > 1 is good for LSTM since it backpropagates through time.
+    7. timestep - how many steps back in time, backprop will look when calculating gradients for weight updates
+    8. BPTT - backpropagation through time
+    9. LSTM is unrolled only if we set unroll = True, otherwise its calculated through loop
+    10. what if we have multiple series in the same range - 
+    11. differencing - to make a series stationary(remove trend) x(i) = x(i) - x(i-i), (random walk)
+    12. seasonal differencing (difference with corresponding observation from previous year)- x(i) = x(i) - x(i-m), m = number of seasons 
+                - called lag-m differences
+    13. use a model (numpy polyfit) to find the curve that fit the model, then subtract x(i) - curve(i)
+    14. take moving average of series to smoothen it
+                centered = mean(prev, current, next) -> need to know next
+                trailing = mean(current, prev, prev - 1)
+    15. build a baseline model
+    16. Return sequence in Keras - By default the model will eat each input at a time and move forward. If return sequence is set as true, then at each step the model
+        will emit the output. If set as true, model will only produce output at the last step. So setting it as true produces many to many, false will/can produce many-to-one depending on the input Have noticed its better to set return sequence as true in hidden LSTM layers so that next layer can benefit from knowing what previous layer was thinking at each step.
+    17. autocorrelation of 1 => linear relationship, correlation of -1 => inverse related, correlation of 0 => no correlation
+            ideally correlation should be 0, to give unbiased estimate. 
+    18. residual - time series after seasonal and trend components are removed
+    19. how LSTMs avoid vanishing/exploding gradient problem. -
+                vanishing/exploding gradient problem arises because the derivatives are multiplied (as per chain rule). This causes the gradients to either vanish or explode (since RNNs are recurrent).  To avoid this, LSTMs don't multiply the gradients, instead its additive????
+questions:
+1. mse is low when input is not normalized. - yes, but relative mse still remains the same. 
+
+
+
+

@@ -61,7 +61,42 @@ func main() {
 	//empty slice (a slice with 0 len and 0 cap, but there is a pointer.) : return no error, but no data
 	// the pointer points to an empty struct. 
 	jobs := []string{} 
-	print(jobs) //printing to allow compile
+	fmt.Printf("%v\n",jobs) //printing to allow compile
+
+	hits := make([]hits_counter, 3)
+
+	userOneHits := &hits[1] //share the hits for user 1
+
+	userOneHits.user = "vishnu"
+	userOneHits.hits++
+
+	fmt.Printf("%v\n",userOneHits)
+
+	fmt.Printf("--- print original hits counter array (user vishnu should have updated) --- \n")
+	for i := range hits {
+		fmt.Printf("%v\n", hits[i])
+	}
+
+	//append user 
+	hits = append(hits, hits_counter {
+			user : "vani",
+			hits : 1,
+		})
+	//this should double the capacity and create a new backing array, but the original
+	//reference to vishnu should be still pointing to original backing array
+	fmt.Printf("--- \ncapacity : %d\n", cap(hits))
+	userOneHits.hits++
+	fmt.Printf("--- print original hits counter array (user vishnu should have still have 1 hit only ) --- \n")
+	for i := range hits {
+		fmt.Printf("%v\n", hits[i])
+	}
+
+
+}
+
+type hits_counter struct {
+	user string
+	hits int
 }
 
 

@@ -21,13 +21,39 @@ func main() {
 	var places []string //[nil, φ, φ]
 	
 	for i := 0; i <= 10; i++ {
-		places = append(places, "india")
+		places = append(places, fmt.Sprintf("%s%d","india",i))
 		//places[i] = "india" // is more effiicent than append, but need to set size of slice upfront. 
 		placesCap := cap(places) //capacity doubles when current capacity is full.
 		fmt.Printf("%d\n", placesCap)
 	}
 
+
+	subPlaces := places[3:3+4] //slice of slice
+
+	fmt.Printf("-- places with side effect (india 7 over written by usa )--- \n")
+	for i, v := range subPlaces {
+		fmt.Printf("%d, %s\n", i, v)
+	}
+
+	//subPlaces & places are backed by same backing array. any change in subPlaces will have side effect on places
+	subPlaces = append(subPlaces, "usa")
 	for i, v := range places {
+		fmt.Printf("%d, %s\n", i, v)
+	}
+
+	
+	//to avoid the side effect, we need to slice with capacity as the length
+	//so that the append will have to create a new backing array (since capacity is full)
+	subPlacesNoSideEffects := places[3:3+4:7]
+	subPlacesNoSideEffects = append(subPlacesNoSideEffects, "india")
+
+	fmt.Printf("-- places with original side effect, but not the later one (usa not overwritten by india) --- \n ")
+	for i, v := range places {
+		fmt.Printf("%d, %s\n", i, v)
+	}
+
+	fmt.Printf("--- sub places with no side effect (usa overwritten by india) --- \n")
+	for i, v := range subPlacesNoSideEffects {
 		fmt.Printf("%d, %s\n", i, v)
 	}
 	

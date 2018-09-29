@@ -41,4 +41,7 @@ func main() {
 
 	fmt.Printf("%+v\n", c1)
 
+	//empty struct (zero allocation)
+	var data struct{}
+
 }

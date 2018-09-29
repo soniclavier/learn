@@ -7,6 +7,7 @@ import "fmt"
 func main() {
 	//zero values (uninitialized)
 	//the bytes allocated are assinged 0 value if not initialized (not null)
+	//e.g., string = [nil, φ]
 
 	//in a 64 bit arch (64 bit address), a word size = 64. => int is 64 bit
 	var id int

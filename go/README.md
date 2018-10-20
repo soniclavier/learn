@@ -1,12 +1,24 @@
 # Go learn
 
-## Receiver
+## Receiver/Behavior
 When defining a method the parameter between func keyworkd and func name
 e.g.,
 ```go
 func (u user) notify() {
 }
 ```
+
+## Decoupling
+Decoupling has cost - the data has to be allocated in heap (for both pointer and value semantics). Because of double indirection. (during escape analysis)\n
+e.g.,
+```go
+vishnu := user{"Vishnu"}
+f1 := vishnu.hello
+//f1 will be a two word pointer. first word is pointer to code. second word a pointer to the data (vishnu)
+f1()
+```
+Costs indirection and allocation
+
 
 ## Value semantics vs Pointer semantics - when to use what
 Value semantics means more allocation, but no side effects.\n
@@ -31,12 +43,11 @@ for i, u := users {
 }
 ```
 
-## Decoupling
-Decoupling has cost - the data has to be allocated in heap (for both pointer and value semantics). Because of double indirection. (during escape analysis)\n
-e.g.,
-```go
-vishnu := user{"Vishnu"}
-f1 := vishnu.hello
-//f1 will be a two word pointer. first word is pointer to code. second word a pointer to the data (vishnu)
-f1()
-```
+## Interfaces
+- Should define a behavior (a verb, not a noun)
+- A Method on a Receiver that has same signature is said to implement the interface. (No need for the struct to explicitly "implement" it)
+- Two word structure
+  - First word - Points to iTable (a two word structure)
+    - First word points to type of value that is stored in interface
+    - Second word points to the implementation
+  - Second word points to the concrete data
